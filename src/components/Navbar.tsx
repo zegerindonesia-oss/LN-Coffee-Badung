@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { ShoppingBag, Menu as MenuIcon, X, Coffee, MapPin, Sparkles } from 'lucide-react';
@@ -53,8 +54,14 @@ export const Navbar: React.FC = () => {
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-400 rounded-xl"
             aria-label="LN Fortunate Coffee Kapal - Beranda"
           >
-            <div className="w-10 h-10 rounded-xl bg-terracotta-500/20 border border-terracotta-500/30 flex items-center justify-center text-terracotta-400 group-hover:scale-105 group-hover:bg-terracotta-500 group-hover:text-white transition-all shadow-sm">
-              <Coffee className="w-5 h-5" />
+            <div className="relative w-10 h-10 rounded-full overflow-hidden bg-white p-0.5 border border-sage-200/80 group-hover:scale-105 transition-transform shadow-sm shrink-0">
+              <Image
+                src="/logo-ln-fortunate.svg"
+                alt="Logo LN Fortunate Coffee"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-white leading-tight">
@@ -157,8 +164,13 @@ export const Navbar: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-forest-800">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center">
-                      <Coffee className="w-5 h-5" />
+                    <div className="relative w-9 h-9 rounded-full overflow-hidden bg-white p-0.5 border border-sage-200 shrink-0">
+                      <Image
+                        src="/logo-ln-fortunate.svg"
+                        alt="Logo LN Fortunate"
+                        fill
+                        className="object-contain"
+                      />
                     </div>
                     <div>
                       <p className="font-serif font-bold text-sm leading-none">LN Fortunate Coffee</p>

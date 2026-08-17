@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BUSINESS_INFO } from '@/data/business';
 import { Coffee, MapPin, Phone, Clock, ExternalLink, Heart } from 'lucide-react';
 
@@ -13,8 +14,13 @@ export const Footer: React.FC = () => {
           {/* Brand Info */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center">
-                <Coffee className="w-5 h-5" />
+              <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white p-0.5 border border-sage-200 shrink-0">
+                <Image
+                  src="/logo-ln-fortunate.svg"
+                  alt="Logo LN Fortunate Coffee"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div>
                 <p className="font-serif text-xl font-bold tracking-tight text-white leading-none">

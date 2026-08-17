@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <circle cx="200" cy="200" r="190" fill="#FFFFFF" stroke="#E2E8E0" stroke-width="2"/>
+  
+  <!-- Tree Foliage & Branches -->
+  <g fill="#173F35">
+    <!-- Leaves -->
+    <path d="M125 150 C110 135, 120 115, 140 120 C155 125, 150 145, 125 150 Z" />
+    <path d="M165 115 C155 95, 175 80, 190 95 C195 110, 180 125, 165 115 Z" />
+    <path d="M225 105 C215 85, 235 70, 250 85 C255 100, 240 115, 225 105 Z" />
+    <path d="M265 140 C280 125, 295 140, 285 160 C270 165, 255 155, 265 140 Z" />
+    <path d="M100 185 C85 170, 100 150, 120 160 C125 175, 115 195, 100 185 Z" />
+    <path d="M280 195 C295 180, 310 195, 300 215 C285 220, 270 210, 280 195 Z" />
+    <path d="M145 190 C130 180, 140 160, 160 165 C165 180, 155 195, 145 190 Z" />
+    <path d="M245 180 C235 165, 250 150, 270 155 C275 170, 260 185, 245 180 Z" />
+    <path d="M175 155 C165 140, 180 125, 195 135 C200 150, 190 165, 175 155 Z" />
+    <path d="M215 150 C205 135, 220 120, 235 130 C240 145, 230 160, 215 150 Z" />
+  </g>
+
+  <!-- Coffee Beans on Tree -->
+  <g fill="#7A4B31" stroke="#56382B" stroke-width="1.5">
+    <!-- Bean 1 -->
+    <g transform="translate(145, 140) rotate(-25)">
+      <ellipse cx="0" cy="0" rx="14" ry="9" />
+      <path d="M-10 0 C-4 -4, 4 4, 10 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 2 -->
+    <g transform="translate(200, 110) rotate(15)">
+      <ellipse cx="0" cy="0" rx="15" ry="9.5" />
+      <path d="M-11 0 C-4 -4, 4 4, 11 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 3 -->
+    <g transform="translate(255, 130) rotate(35)">
+      <ellipse cx="0" cy="0" rx="14" ry="9" />
+      <path d="M-10 0 C-4 -4, 4 4, 10 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 4 -->
+    <g transform="translate(120, 205) rotate(45)">
+      <ellipse cx="0" cy="0" rx="14" ry="9" />
+      <path d="M-10 0 C-4 -4, 4 4, 10 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 5 -->
+    <g transform="translate(275, 215) rotate(-35)">
+      <ellipse cx="0" cy="0" rx="14" ry="9" />
+      <path d="M-10 0 C-4 -4, 4 4, 10 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 6 -->
+    <g transform="translate(180, 185) rotate(-15)">
+      <ellipse cx="0" cy="0" rx="15" ry="9.5" />
+      <path d="M-11 0 C-4 -4, 4 4, 11 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+    <!-- Bean 7 -->
+    <g transform="translate(230, 195) rotate(20)">
+      <ellipse cx="0" cy="0" rx="14" ry="9" />
+      <path d="M-10 0 C-4 -4, 4 4, 10 0" fill="none" stroke="#FAF5EF" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- Tree Trunk -->
+  <path d="M194 135 L206 135 L208 230 C208 245, 215 255, 225 260 L175 260 C185 255, 192 245, 192 230 Z" fill="#173F35" />
+  <!-- Branches -->
+  <path d="M198 170 Q160 150 135 155 Q165 175 198 185" fill="#173F35" />
+  <path d="M202 165 Q240 145 265 150 Q235 170 202 180" fill="#173F35" />
+  <path d="M198 140 Q170 120 150 125" stroke="#173F35" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M202 135 Q230 115 250 120" stroke="#173F35" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+  <!-- LN Lettering & Coffee Text -->
+  <g transform="translate(145, 270)">
+    <!-- Vertical 'COFFEE' text -->
+    <text x="0" y="45" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="11" fill="#173F35" letter-spacing="3" transform="rotate(-90 0,45)">COFFEE</text>
+    <!-- L -->
+    <path d="M18 10 L34 10 L34 44 L60 44 L60 60 L18 60 Z" fill="#173F35" />
+    <!-- N connected to L -->
+    <path d="M48 60 L60 60 L60 28 L84 60 L98 60 L98 10 L82 10 L82 42 L58 10 L48 10 Z" fill="#173F35" />
+  </g>
+</svg>
