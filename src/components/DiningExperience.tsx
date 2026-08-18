@@ -9,8 +9,29 @@ import { BUSINESS_INFO } from '@/data/business';
 export const DiningExperience: React.FC = () => {
   return (
     <section id="facilities" className="py-20 lg:py-28 bg-white relative overflow-hidden">
-      {/* Background Organic Green Gradient Accents */}
-      <div className="absolute top-1/3 right-0 w-[450px] h-[450px] bg-emerald-100/50 rounded-full blur-[130px] pointer-events-none" />
+      {/* Prominent Background Green Wave SVG */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <svg
+          className="absolute -bottom-20 -right-20 w-[750px] sm:w-[1000px] opacity-35 text-emerald-600 mix-blend-multiply"
+          viewBox="0 0 1000 1000"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 200,1000 C 400,750 600,900 1000,600 L 1000,1000 Z"
+            fill="url(#dining-green-wave-1)"
+          />
+          <defs>
+            <linearGradient id="dining-green-wave-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0F291E" />
+              <stop offset="50%" stopColor="#059669" />
+              <stop offset="100%" stopColor="#34D399" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className="absolute top-1/3 left-0 w-[450px] h-[450px] bg-emerald-100/60 rounded-full blur-[130px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -28,7 +49,7 @@ export const DiningExperience: React.FC = () => {
               </p>
             </div>
 
-            {/* Forest Green Cards Grid (Matching User Request) */}
+            {/* Forest Green Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               {BUSINESS_INFO.facilities.map((fac, idx) => (
                 <motion.div

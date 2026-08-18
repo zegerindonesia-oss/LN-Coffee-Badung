@@ -35,8 +35,28 @@ const STEPS = [
 export const HowToOrder: React.FC = () => {
   return (
     <section className="py-20 lg:py-28 bg-white text-slate-800 relative overflow-hidden">
-      {/* Background Organic Green Gradient Accents */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/40 rounded-full blur-[140px] pointer-events-none" />
+      {/* Prominent Background Green Wave SVG */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <svg
+          className="absolute -top-16 -left-16 w-[750px] sm:w-[1000px] opacity-35 text-emerald-600 mix-blend-multiply"
+          viewBox="0 0 1000 1000"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,200 C350,100 550,450 400,850 C300,1080 100,1150 0,1200 Z"
+            fill="url(#order-green-wave-1)"
+          />
+          <defs>
+            <linearGradient id="order-green-wave-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#065F46" />
+              <stop offset="100%" stopColor="#34D399" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/50 rounded-full blur-[140px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">

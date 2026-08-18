@@ -52,6 +52,39 @@ export const Hero: React.FC = () => {
   return (
     <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-20 pb-14 lg:py-20">
       
+      {/* Prominent Organic Green Wave Backdrop SVG inside Hero */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <svg
+          className="absolute -top-10 -right-10 w-[700px] sm:w-[950px] lg:w-[1250px] opacity-40 text-emerald-700"
+          viewBox="0 0 1000 1000"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 150,0 C 400,250 650,150 850,400 C 950,550 1000,750 1000,1000 L 1000,0 Z"
+            fill="url(#hero-green-wave-1)"
+          />
+          <path
+            d="M 300,0 C 500,300 720,220 900,500 C 980,650 1000,850 1000,1000 L 1000,0 Z"
+            fill="url(#hero-green-wave-2)"
+            opacity="0.8"
+          />
+          <defs>
+            <linearGradient id="hero-green-wave-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0F291E" />
+              <stop offset="50%" stopColor="#059669" />
+              <stop offset="100%" stopColor="#6EE7B7" />
+            </linearGradient>
+            <linearGradient id="hero-green-wave-2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#047857" />
+              <stop offset="100%" stopColor="#A7F3D0" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className="absolute -bottom-20 -left-20 w-[550px] h-[550px] bg-gradient-to-tr from-emerald-100/90 via-teal-100/50 to-transparent rounded-full blur-[120px]" />
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
         
         {/* 1. Headline Copywriting */}
@@ -71,7 +104,6 @@ export const Hero: React.FC = () => {
         {/* 2. Genuine Physical 3D Card Container Sliding Carousel */}
         <div className="relative w-full max-w-6xl my-2 py-4 flex items-center justify-center min-h-[500px] sm:min-h-[550px] perspective-1000 overflow-visible">
           {SIGNATURE_ITEMS.map((item, i) => {
-            // Compute diff relative to currentIdx for circular loop
             let diff = i - currentIdx;
             while (diff < -Math.floor(totalItems / 2)) diff += totalItems;
             while (diff > Math.floor(totalItems / 2)) diff -= totalItems;
@@ -85,7 +117,6 @@ export const Hero: React.FC = () => {
 
             if (isHidden) return null;
 
-            // Physical 3D Transform Props for Card Container
             let xPos = '0%';
             let scaleVal = 1;
             let rotateVal = 0;
@@ -173,7 +204,7 @@ export const Hero: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Bottom Body (Text Snug against Price Line) */}
+                {/* Card Bottom Body */}
                 <div className="flex-1 text-left flex flex-col justify-between pt-0.5">
                   <div>
                     <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-0.5">
@@ -351,10 +382,10 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Organic Green Wave Divider */}
-      <div className="w-full overflow-hidden leading-none mt-10 pointer-events-none">
+      {/* Prominent Organic Green Wave Shape Divider */}
+      <div className="w-full overflow-hidden leading-none mt-10 pointer-events-none relative z-10">
         <svg
-          className="relative block w-full h-12 text-emerald-900/10"
+          className="relative block w-full h-16 sm:h-20 text-emerald-800/20"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
         >

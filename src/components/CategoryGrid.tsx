@@ -68,8 +68,29 @@ const CATEGORIES = [
 export const CategoryGrid: React.FC = () => {
   return (
     <section className="py-20 lg:py-28 bg-white relative overflow-hidden">
-      {/* Background Organic Green Gradient Accents */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-emerald-100/50 rounded-full blur-[130px] pointer-events-none" />
+      {/* Prominent Background Green Silk Wave SVG */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <svg
+          className="absolute -top-20 -left-20 w-[700px] sm:w-[950px] opacity-35 text-emerald-600 mix-blend-multiply"
+          viewBox="0 0 1000 1000"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,0 C300,150 500,400 800,250 C950,180 1000,300 1000,500 L0,500 Z"
+            fill="url(#cat-green-wave-1)"
+          />
+          <defs>
+            <linearGradient id="cat-green-wave-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0F291E" />
+              <stop offset="50%" stopColor="#059669" />
+              <stop offset="100%" stopColor="#34D399" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-emerald-100/60 rounded-full blur-[130px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-14">
