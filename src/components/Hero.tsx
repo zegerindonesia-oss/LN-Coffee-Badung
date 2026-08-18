@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ChevronLeft,
   ChevronRight,
@@ -47,59 +47,11 @@ export const Hero: React.FC = () => {
     }, 1200);
   };
 
-  const getItemAtOffset = (offset: number) => {
-    const len = SIGNATURE_ITEMS.length;
-    const index = (currentIdx + offset + len) % len;
-    return SIGNATURE_ITEMS[index];
-  };
+  const totalItems = SIGNATURE_ITEMS.length;
 
   return (
     <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-20 pb-14 lg:py-20">
       
-      {/* Organic Green Liquid Silk Waves Background (Matching Ref Images 2-5) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Layer 1: Top-Right Concentric Organic Green Wave Contour */}
-        <svg
-          className="absolute -top-12 -right-12 w-[650px] sm:w-[850px] opacity-25 text-emerald-600 mix-blend-multiply"
-          viewBox="0 0 700 700"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M 600,0 C 500,150 400,300 250,400 C 100,500 0,600 -100,650 L 700,700 Z"
-            fill="url(#emerald-wave-gradient-1)"
-          />
-          <path
-            d="M 650,0 C 550,180 420,340 300,430 C 180,520 50,620 -50,680 L 700,700 Z"
-            fill="url(#emerald-wave-gradient-2)"
-            opacity="0.7"
-          />
-          <path
-            d="M 700,0 C 600,200 450,380 340,460 C 220,540 100,640 0,700 L 700,700 Z"
-            fill="url(#emerald-wave-gradient-3)"
-            opacity="0.4"
-          />
-          <defs>
-            <linearGradient id="emerald-wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#0F291E" />
-              <stop offset="50%" stopColor="#059669" />
-              <stop offset="100%" stopColor="#34D399" />
-            </linearGradient>
-            <linearGradient id="emerald-wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#047857" />
-              <stop offset="100%" stopColor="#A7F3D0" />
-            </linearGradient>
-            <linearGradient id="emerald-wave-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#065F46" />
-              <stop offset="100%" stopColor="#6EE7B7" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        {/* Layer 2: Bottom-Left Soft Silk Glow */}
-        <div className="absolute -bottom-24 -left-24 w-[550px] h-[550px] bg-gradient-to-tr from-emerald-100/80 via-teal-50/50 to-transparent rounded-full blur-[140px]" />
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
         
         {/* 1. Headline Copywriting */}
@@ -116,17 +68,24 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 2. Genuine 5-Card Apple 3D Physical Rotating Cover Flow Showcase */}
+        {/* 2. Genuine Physical 3D Card Container Sliding Carousel */}
         <div className="relative w-full max-w-6xl my-2 py-4 flex items-center justify-center min-h-[500px] sm:min-h-[550px] perspective-1000 overflow-visible">
-          {[-2, -1, 0, 1, 2].map((offset) => {
-            const item = getItemAtOffset(offset);
-            const isCenter = offset === 0;
-            const isLeft = offset === -1;
-            const isRight = offset === 1;
-            const isFarLeft = offset === -2;
-            const isFarRight = offset === 2;
+          {SIGNATURE_ITEMS.map((item, i) => {
+            // Compute diff relative to currentIdx for circular loop
+            let diff = i - currentIdx;
+            while (diff < -Math.floor(totalItems / 2)) diff += totalItems;
+            while (diff > Math.floor(totalItems / 2)) diff -= totalItems;
 
-            // Physical 3D transform positions for 5 cards
+            const isCenter = diff === 0;
+            const isLeft = diff === -1;
+            const isRight = diff === 1;
+            const isFarLeft = diff === -2;
+            const isFarRight = diff === 2;
+            const isHidden = Math.abs(diff) > 2;
+
+            if (isHidden) return null;
+
+            // Physical 3D Transform Props for Card Container
             let xPos = '0%';
             let scaleVal = 1;
             let rotateVal = 0;
@@ -142,13 +101,13 @@ export const Hero: React.FC = () => {
             } else if (isLeft) {
               xPos = '-64%';
               scaleVal = 0.83;
-              rotateVal = 15;
+              rotateVal = 16;
               opacityVal = 0.8;
               zIndexVal = 20;
             } else if (isRight) {
               xPos = '64%';
               scaleVal = 0.83;
-              rotateVal = -15;
+              rotateVal = -16;
               opacityVal = 0.8;
               zIndexVal = 20;
             } else if (isFarLeft) {
@@ -167,11 +126,9 @@ export const Hero: React.FC = () => {
 
             return (
               <motion.div
-                key={`card-slot-${offset}-${item.id}`}
-                layout
+                key={item.id}
                 onClick={() => {
-                  if (isLeft || isFarLeft) handlePrev();
-                  if (isRight || isFarRight) handleNext();
+                  if (diff !== 0) setCurrentIdx(i);
                   if (isCenter) setQuickViewItem(item);
                 }}
                 initial={false}
@@ -183,8 +140,8 @@ export const Hero: React.FC = () => {
                 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 220,
-                  damping: 24,
+                  stiffness: 200,
+                  damping: 22,
                 }}
                 style={{ zIndex: zIndexVal }}
                 className={`absolute rounded-[2.5rem] p-4 sm:p-5 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
@@ -195,7 +152,7 @@ export const Hero: React.FC = () => {
                     : 'w-[220px] sm:w-[260px] h-[370px] sm:h-[400px] hidden lg:flex opacity-60'
                 }`}
               >
-                {/* Taller Food Image Frame (Fills almost 70% of card) */}
+                {/* Taller Food Image Frame */}
                 <div className="relative w-full h-[270px] sm:h-[320px] rounded-[2rem] overflow-hidden shadow-lg mb-2 bg-slate-100 shrink-0">
                   <Image
                     src={item.image}
