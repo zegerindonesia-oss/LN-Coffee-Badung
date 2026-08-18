@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const CATEGORIES = [
   {
@@ -67,17 +67,19 @@ const CATEGORIES = [
 
 export const CategoryGrid: React.FC = () => {
   return (
-    <section className="py-20 lg:py-28 bg-ivory-100/70 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 lg:py-28 bg-white relative overflow-hidden">
+      {/* Background Organic Green Gradient Accents */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-emerald-100/50 rounded-full blur-[130px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900/10 text-forest-900 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-terracotta-500" />
-            <span>Kategori Menu</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-forest-950 tracking-tight">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-extrabold uppercase tracking-wider mb-3">
+            Kategori Menu
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F291E] tracking-tight">
             Jelajahi Berdasarkan Kategori
           </h2>
-          <p className="text-sm sm:text-base text-charcoal-700 mt-3 font-light">
+          <p className="text-sm sm:text-base text-slate-600 mt-3 font-normal">
             Temukan makanan, minuman sehat, camilan gurih, hingga dessert lezat sesuai selera Anda.
           </p>
         </div>
@@ -87,41 +89,42 @@ export const CategoryGrid: React.FC = () => {
           {CATEGORIES.map((cat, idx) => (
             <motion.div
               key={cat.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.08 }}
+              transition={{ duration: 0.35, delay: idx * 0.06 }}
             >
               <Link
                 href={`/menu?category=${encodeURIComponent(cat.categoryParam)}&sub=${encodeURIComponent(cat.subParam)}`}
-                className="group relative h-64 sm:h-72 rounded-3xl overflow-hidden block shadow-soft hover:shadow-lift transition-all border border-sage-200"
+                className="group relative h-64 sm:h-72 rounded-[2rem] overflow-hidden block shadow-md hover:shadow-xl transition-all border border-slate-200"
               >
                 {/* Background Image */}
                 <Image
                   src={cat.image}
                   alt={cat.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, 400px"
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                {/* Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/40 to-transparent group-hover:from-forest-950/95 transition-all" />
+                {/* Green Wave Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-emerald-950/40 to-transparent group-hover:from-emerald-950/95 transition-all" />
 
                 {/* Content Overlay */}
                 <div className="absolute inset-0 p-6 flex flex-col justify-between text-white z-10">
                   <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-semibold text-white">
+                    <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-bold text-white border border-white/20">
                       {cat.tag}
                     </span>
-                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-terracotta-500 group-hover:rotate-45 transition-all">
+                    <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-emerald-600 group-hover:rotate-45 transition-all">
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-xs text-terracotta-300 font-medium tracking-wide block mb-1">
+                    <span className="text-xs text-emerald-300 font-extrabold tracking-wide block mb-1">
                       {cat.itemCount}
                     </span>
-                    <h3 className="font-serif text-xl sm:text-2xl font-bold leading-snug group-hover:text-terracotta-300 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-extrabold leading-snug group-hover:text-emerald-200 transition-colors">
                       {cat.title}
                     </h3>
                   </div>
