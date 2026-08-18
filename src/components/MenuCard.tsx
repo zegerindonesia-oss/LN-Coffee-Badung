@@ -43,9 +43,10 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
       layout
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -8 }}
       viewport={{ once: true, margin: '-30px' }}
       transition={{ duration: 0.3 }}
-      className="group relative bg-white rounded-[2rem] border border-slate-200/80 hover:border-emerald-300 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
+      className="group relative bg-white rounded-[2.2rem] border border-slate-200/80 hover:border-emerald-400 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden"
     >
       {/* Image Frame */}
       <div

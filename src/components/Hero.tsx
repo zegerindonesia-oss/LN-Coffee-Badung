@@ -24,11 +24,12 @@ export const Hero: React.FC = () => {
   const { addToCart, setIsCartOpen, setQuickViewItem } = useCart();
   const [addedItemMap, setAddedItemMap] = useState<Record<number, boolean>>({});
 
+  // Auto Slider runs every 2.5 seconds (2500ms) continuously
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % SIGNATURE_ITEMS.length);
-    }, 4500);
+    }, 2500);
     return () => clearInterval(timer);
   }, [isPaused]);
 
@@ -57,31 +58,28 @@ export const Hero: React.FC = () => {
     return SIGNATURE_ITEMS[index];
   };
 
-  const prevItem = getItemAtOffset(-1);
-  const nextItem = getItemAtOffset(1);
-
   return (
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-24 pb-16 lg:py-24"
     >
-      {/* Background Soft Ambient Light */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/60 via-teal-50/40 to-transparent rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-50/80 to-transparent rounded-full blur-[130px] pointer-events-none" />
+      {/* Background Soft Ambient Glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/70 via-teal-50/50 to-transparent rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-50/90 to-transparent rounded-full blur-[130px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
         
         {/* 1. Small Badge & Status (Top) */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 mb-3">
-          <span className="px-3.5 py-1 rounded-full bg-emerald-100/90 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider">
+          <span className="px-3.5 py-1 rounded-full bg-emerald-100/90 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
             LN Signature Menu
           </span>
           <OpeningStatusBadge />
         </div>
 
-        {/* 2. Copywriting Title & Description */}
-        <div className="max-w-2xl mx-auto mb-8">
+        {/* 2. Headline Copywriting */}
+        <div className="max-w-2xl mx-auto mb-6">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-3">
             Taste the Best that <br />
             <span className="text-emerald-700 italic font-serif font-normal">
@@ -94,138 +92,110 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 3. Apple-Style 3D Cover Flow Carousel Showcase */}
-        <div className="relative w-full max-w-5xl my-4 py-4 flex items-center justify-center overflow-visible">
-          
-          {/* Left Preview Card (Apple Perspective Depth) */}
-          <motion.div
-            key={`left-${prevItem.id}`}
-            onClick={handlePrev}
-            initial={{ opacity: 0, scale: 0.8, x: -60 }}
-            animate={{ opacity: 0.65, scale: 0.85, x: 0 }}
-            transition={{ duration: 0.45 }}
-            className="hidden md:flex absolute left-4 lg:left-12 z-10 cursor-pointer w-[240px] lg:w-[280px] rounded-[2.5rem] p-4 bg-white border border-slate-200 shadow-xl text-slate-800 flex-col items-center select-none hover:opacity-90 transition-opacity"
-          >
-            <div className="w-full flex items-center justify-between text-[10px] font-bold text-slate-500 mb-2">
-              <span>{prevItem.subCategory}</span>
-              <span className="flex items-center gap-1 text-amber-500 font-extrabold">★ 4.9</span>
-            </div>
+        {/* 3. Apple-Style 3D Cover Flow Rotating Carousel (Ref Image 1 & 2) */}
+        <div className="relative w-full max-w-5xl my-4 py-6 flex items-center justify-center min-h-[460px] sm:min-h-[500px] perspective-1000 overflow-visible">
+          {[-2, -1, 0, 1, 2].map((offset) => {
+            const item = getItemAtOffset(offset);
+            const isCenter = offset === 0;
+            const isLeft = offset === -1;
+            const isRight = offset === 1;
+            const isFarLeft = offset === -2;
+            const isFarRight = offset === 2;
 
-            <div className="relative w-[140px] h-[140px] rounded-full overflow-hidden border-2 border-slate-100 shadow-md mb-3">
-              <Image src={prevItem.image} alt={prevItem.name} fill className="object-cover" />
-            </div>
+            if (isFarLeft || isFarRight) return null; // Hide far edges for crisp 3-card 3D focus
 
-            <h4 className="text-xs font-bold text-slate-900 line-clamp-1">{prevItem.name}</h4>
-            <span className="text-xs font-extrabold text-emerald-700 mt-1">{formatRupiah(prevItem.price)}</span>
-          </motion.div>
-
-          {/* Center Active Apple Card (Hero Centerpiece with Deep Shadow) */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`active-${activeItem.id}`}
-              initial={{ opacity: 0, scale: 0.9, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -15 }}
-              transition={{ type: 'spring', stiffness: 280, damping: 24 }}
-              className="relative z-30 w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] rounded-[2.5rem] sm:rounded-[3rem] p-5 sm:p-7 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.4)] flex flex-col items-center cursor-pointer"
-            >
-              {/* Header inside Card: Subcategory Left, Rating Badge TOP RIGHT */}
-              <div className="w-full flex items-center justify-between mb-4">
-                <span className="px-3.5 py-1.5 rounded-full bg-emerald-800/80 border border-emerald-700/80 text-emerald-300 text-[11px] font-extrabold uppercase tracking-wider">
-                  {activeItem.subCategory} • {activeItem.size}
-                </span>
-
-                {/* Rating Badge at TOP RIGHT */}
-                <div className="px-3.5 py-1.5 rounded-full bg-white text-slate-800 text-xs font-extrabold flex items-center gap-1.5 shadow-md">
-                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                  <span>4.9 / 5.0 Rating</span>
-                </div>
-              </div>
-
-              {/* Large Circular Dish Photo inside Card */}
-              <div
-                className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] lg:w-[280px] lg:h-[280px] rounded-full p-2.5 bg-white border-4 border-white shadow-2xl overflow-hidden my-2 group"
-                onClick={() => setQuickViewItem(activeItem)}
+            return (
+              <motion.div
+                key={`${item.id}-${offset}`}
+                onClick={() => {
+                  if (isLeft) handlePrev();
+                  if (isRight) handleNext();
+                  if (isCenter) setQuickViewItem(item);
+                }}
+                initial={false}
+                animate={{
+                  scale: isCenter ? 1 : 0.84,
+                  x: isLeft ? '-75%' : isRight ? '75%' : '0%',
+                  rotateY: isLeft ? 14 : isRight ? -14 : 0,
+                  z: isCenter ? 30 : 10,
+                  opacity: isCenter ? 1 : 0.75,
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 26 }}
+                style={{ zIndex: isCenter ? 30 : 10 }}
+                className={`absolute rounded-[2.5rem] p-5 sm:p-6 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
+                  isCenter
+                    ? 'w-[300px] sm:w-[360px] lg:w-[380px] h-[460px] sm:h-[500px]'
+                    : 'w-[260px] sm:w-[310px] h-[400px] sm:h-[440px] hidden sm:flex hover:opacity-95'
+                }`}
               >
-                <div className="relative w-full h-full rounded-full overflow-hidden">
+                {/* Large Rectangular Rounded Image Frame (Matching Ref Image 1) */}
+                <div className="relative w-full aspect-[4/3] rounded-[1.8rem] overflow-hidden shadow-lg mb-4 bg-slate-100 shrink-0">
                   <Image
-                    src={activeItem.image}
-                    alt={activeItem.name}
+                    src={item.image}
+                    alt={item.name}
                     fill
-                    priority
-                    sizes="320px"
+                    priority={isCenter}
+                    sizes="(max-width: 640px) 300px, 400px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
+                  {/* Rating Badge Overlay Top Right */}
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/95 text-slate-800 text-xs font-extrabold flex items-center gap-1 shadow-md backdrop-blur-md">
+                    <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    <span>4.9</span>
+                  </div>
+                  {/* Category Tag Overlay Top Left */}
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#0F291E]/80 border border-white/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md">
+                    {item.subCategory}
+                  </div>
                 </div>
-              </div>
 
-              {/* Footer inside SAME Card: Item Name, Price & Action Buttons */}
-              <div className="w-full mt-3 text-center space-y-2.5">
-                <h3 className="text-base sm:text-lg font-bold text-white line-clamp-1">
-                  {activeItem.name}
-                </h3>
-                <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 font-sans">
-                  {formatRupiah(activeItem.price)}
+                {/* Card Main Body */}
+                <div className="flex-1 text-left flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-1">
+                      {item.name}
+                    </h3>
+                    <p className="text-xs text-emerald-100/90 font-normal leading-relaxed line-clamp-2">
+                      {item.ingredients || 'Hidangan gourmet nabati spesial khas LN Fortunate Bali.'}
+                    </p>
+                  </div>
+
+                  {/* Card Bottom Footer: Price + Large White Plus (+) Button */}
+                  <div className="flex items-center justify-between pt-3 border-t border-emerald-800/80 mt-3">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider">
+                        Harga
+                      </span>
+                      <span className="text-lg sm:text-2xl font-extrabold text-white font-sans">
+                        {formatRupiah(item.price)}
+                      </span>
+                    </div>
+
+                    <button
+                      onClick={(e) => handleAddToCart(e, item)}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center font-extrabold text-xl shadow-xl transition-all active:scale-95 ${
+                        addedItemMap[item.id]
+                          ? 'bg-emerald-500 text-white'
+                          : 'bg-white text-[#0F291E] hover:bg-slate-100 hover:scale-105'
+                      }`}
+                      aria-label={`Tambah ${item.name}`}
+                    >
+                      {addedItemMap[item.id] ? (
+                        <Check className="w-6 h-6 text-white" />
+                      ) : (
+                        <Plus className="w-6 h-6 text-[#0F291E]" />
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                <div className="flex items-center justify-center gap-3 pt-1">
-                  <button
-                    onClick={() => setQuickViewItem(activeItem)}
-                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/20"
-                  >
-                    Detail
-                  </button>
-                  <button
-                    onClick={(e) => handleAddToCart(e, activeItem)}
-                    className={`px-5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all shadow-md ${
-                      addedItemMap[activeItem.id]
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                    }`}
-                  >
-                    {addedItemMap[activeItem.id] ? (
-                      <>
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Ditambah</span>
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Beli Sekarang</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Right Preview Card (Apple Perspective Depth) */}
-          <motion.div
-            key={`right-${nextItem.id}`}
-            onClick={handleNext}
-            initial={{ opacity: 0, scale: 0.8, x: 60 }}
-            animate={{ opacity: 0.65, scale: 0.85, x: 0 }}
-            transition={{ duration: 0.45 }}
-            className="hidden md:flex absolute right-4 lg:right-12 z-10 cursor-pointer w-[240px] lg:w-[280px] rounded-[2.5rem] p-4 bg-white border border-slate-200 shadow-xl text-slate-800 flex-col items-center select-none hover:opacity-90 transition-opacity"
-          >
-            <div className="w-full flex items-center justify-between text-[10px] font-bold text-slate-500 mb-2">
-              <span>{nextItem.subCategory}</span>
-              <span className="flex items-center gap-1 text-amber-500 font-extrabold">★ 4.9</span>
-            </div>
-
-            <div className="relative w-[140px] h-[140px] rounded-full overflow-hidden border-2 border-slate-100 shadow-md mb-3">
-              <Image src={nextItem.image} alt={nextItem.name} fill className="object-cover" />
-            </div>
-
-            <h4 className="text-xs font-bold text-slate-900 line-clamp-1">{nextItem.name}</h4>
-            <span className="text-xs font-extrabold text-emerald-700 mt-1">{formatRupiah(nextItem.price)}</span>
-          </motion.div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* 4. Action Buttons, Navigation & Pagination Dots */}
-        <div className="flex flex-col items-center gap-5 mt-6 w-full max-w-md">
-          {/* Pagination Indicator Dots */}
+        {/* 4. Navigation & Pagination Indicator */}
+        <div className="flex flex-col items-center gap-5 mt-4 w-full max-w-md">
+          {/* 2.5s Auto-Slider Indicator Dots */}
           <div className="flex items-center gap-2">
             {SIGNATURE_ITEMS.map((item, idx) => (
               <button
@@ -234,7 +204,7 @@ export const Hero: React.FC = () => {
                 aria-label={`Pilih slide ${idx + 1}`}
                 className={`transition-all duration-300 ${
                   idx === currentIdx
-                    ? 'w-7 h-2.5 rounded-full bg-emerald-700'
+                    ? 'w-8 h-2.5 rounded-full bg-emerald-700'
                     : 'w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-slate-400'
                 }`}
               />
@@ -242,10 +212,9 @@ export const Hero: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-center gap-3 w-full">
-            {/* Slider Arrow Buttons */}
             <button
               onClick={handlePrev}
-              className="p-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200 shadow-sm"
+              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg"
               aria-label="Menu sebelumnya"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -260,7 +229,7 @@ export const Hero: React.FC = () => {
 
             <button
               onClick={() => setIsCartOpen(true)}
-              className="px-5 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-sm transition-all flex items-center gap-2"
+              className="px-5 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
             >
               <ShoppingBag className="w-4 h-4 text-emerald-700" />
               <span className="hidden sm:inline">Keranjang</span>
@@ -268,7 +237,7 @@ export const Hero: React.FC = () => {
 
             <button
               onClick={handleNext}
-              className="p-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200 shadow-sm"
+              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg"
               aria-label="Menu selanjutnya"
             >
               <ChevronRight className="w-4 h-4" />
@@ -276,7 +245,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* 5. Bottom Favorite Food Grid */}
+        {/* 5. Bottom Favorite Food Card Grid (with 3D Shadows & Hover Elevations) */}
         <div className="w-full mt-16 pt-10 border-t border-slate-100 text-left">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -304,15 +273,15 @@ export const Hero: React.FC = () => {
               return (
                 <motion.div
                   key={item.id}
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
                   onClick={() => setCurrentIdx(idx)}
-                  className={`relative rounded-[2.5rem] p-5 cursor-pointer flex flex-col justify-between transition-all shadow-md hover:shadow-xl ${
+                  className={`relative rounded-[2.5rem] p-5 cursor-pointer flex flex-col justify-between transition-all duration-300 shadow-lg hover:shadow-2xl ${
                     isGreenCard
                       ? 'bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-800'
                       : 'bg-white border border-slate-200 text-slate-900'
                   }`}
                 >
-                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-sm border border-black/5 bg-slate-100">
+                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-md border border-black/5 bg-slate-100">
                     <Image
                       src={item.image}
                       alt={item.name}
