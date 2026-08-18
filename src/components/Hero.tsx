@@ -62,14 +62,10 @@ export const Hero: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-gradient-to-tr from-emerald-50/80 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        {/* Main Grid: On both Mobile & Desktop, Layout Flow is:
-            1. Copywriting Title & Description
-            2. Dish Photo Showcase (with Green Organic Wave Background & Rating OUTSIDE frame)
-            3. Price Pill, Buy Buttons & Actions
-        */}
+        {/* Main Grid: Static Headline Left, Dynamic Unified Sliding Card Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Copywriting (Top) & Actions (Bottom) */}
+          {/* Left Column: STABLE / STATIC Headline Title & Copywriting (Zero Blinking/Flickering) */}
           <div className="lg:col-span-6 flex flex-col items-start text-left z-10">
             {/* Top Pill Badge & Status */}
             <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -79,120 +75,19 @@ export const Hero: React.FC = () => {
               <OpeningStatusBadge />
             </div>
 
-            {/* 1. Copywriting Title & Description (Always Top on Mobile & Desktop) */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`text-${activeItem.id}`}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35 }}
-                className="w-full"
-              >
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-3">
-                  Taste the Best that <br />
-                  <span className="text-emerald-700 italic font-serif font-normal">
-                    Surprises You
-                  </span>
-                </h1>
+            {/* Static Headline Title & Description */}
+            <div className="w-full">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-3">
+                Taste the Best that <br />
+                <span className="text-emerald-700 italic font-serif font-normal">
+                  Surprises You
+                </span>
+              </h1>
 
-                <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-xl mb-6">
-                  {activeItem.ingredients ||
-                    'Sajian gourmet plant-based khas LN Fortunate Coffee Bali. Diolah dari bahan nabati alami pilihan tanpa pengawet dan 100% tanpa MSG.'}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* On Mobile (hidden lg), render the Dish Image right here in middle! */}
-            <div className="w-full lg:hidden my-4 flex flex-col items-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`mobile-img-${activeItem.id}`}
-                  initial={{ opacity: 0, scale: 0.94 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.94 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="relative w-full max-w-[320px] aspect-square flex flex-col items-center justify-center cursor-pointer"
-                  onClick={() => setQuickViewItem(activeItem)}
-                >
-                  {/* Organic Green Wave Background Backdrop (Ref Image 2) */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] rounded-[3rem] border border-emerald-800/80 shadow-2xl" />
-
-                  {/* Circular Dish Photo Frame */}
-                  <div className="relative z-10 w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] rounded-full p-2 bg-white border-4 border-white shadow-2xl overflow-hidden">
-                    <div className="relative w-full h-full rounded-full overflow-hidden">
-                      <Image
-                        src={activeItem.image}
-                        alt={activeItem.name}
-                        fill
-                        priority
-                        sizes="300px"
-                        className="object-cover object-center"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Rating Badge PLACED OUTSIDE THE CIRCULAR FRAME */}
-                  <div className="relative z-20 mt-3 px-4 py-1.5 rounded-full bg-white text-slate-800 text-xs font-extrabold flex items-center gap-1.5 shadow-xl border border-slate-200">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                    <span>4.9 / 5.0 Rating</span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+              <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-xl mb-6">
+                Sajian gourmet plant-based khas LN Fortunate Coffee Bali. Diolah dari bahan nabati alami pilihan tanpa pengawet dan 100% tanpa MSG.
+              </p>
             </div>
-
-            {/* 3. Active Item Card with Price & Buy Actions (Below Dish Image) */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`card-${activeItem.id}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.35 }}
-                className="w-full mb-6 p-4 rounded-3xl bg-[#0F291E] text-white border border-emerald-800 shadow-xl flex items-center justify-between gap-4 max-w-lg"
-              >
-                <div>
-                  <span className="text-[10px] text-emerald-300 uppercase tracking-widest font-extrabold block">
-                    {activeItem.subCategory} • {activeItem.size}
-                  </span>
-                  <h3 className="text-base sm:text-lg font-bold text-white line-clamp-1">
-                    {activeItem.name}
-                  </h3>
-                  <span className="text-lg font-extrabold text-emerald-400 font-sans">
-                    {formatRupiah(activeItem.price)}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    onClick={() => setQuickViewItem(activeItem)}
-                    className="px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/20"
-                  >
-                    Detail
-                  </button>
-                  <button
-                    onClick={(e) => handleAddToCart(e, activeItem)}
-                    className={`px-4 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all shadow-md ${
-                      addedItemMap[activeItem.id]
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                    }`}
-                  >
-                    {addedItemMap[activeItem.id] ? (
-                      <>
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Ditambah</span>
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Beli Sekarang</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </motion.div>
-            </AnimatePresence>
 
             {/* CTAs & Navigation Arrows */}
             <div className="flex flex-wrap items-center gap-3.5 w-full">
@@ -210,7 +105,7 @@ export const Hero: React.FC = () => {
                 <span>Keranjang</span>
               </button>
 
-              {/* Slider Arrows */}
+              {/* Slider Arrow Buttons */}
               <div className="flex items-center gap-2 ml-auto">
                 <button
                   onClick={handlePrev}
@@ -230,39 +125,84 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Showcase (hidden on mobile, visible lg) */}
-          <div className="hidden lg:flex lg:col-span-6 relative justify-center items-center">
+          {/* Right Column: Unified Featured Dish Card (ONLY THIS CARD SLIDES WITH MOTION) */}
+          <div className="lg:col-span-6 relative flex justify-center items-center">
             <AnimatePresence mode="wait">
               <motion.div
-                key={`desktop-img-${activeItem.id}`}
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
-                transition={{ duration: 0.45, ease: 'easeOut' }}
-                className="relative w-[500px] h-[500px] flex flex-col items-center justify-center cursor-pointer"
-                onClick={() => setQuickViewItem(activeItem)}
+                key={activeItem.id}
+                initial={{ opacity: 0, x: 25 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -25 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[3rem] p-5 sm:p-6 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-800/80 shadow-2xl flex flex-col items-center cursor-pointer"
               >
-                {/* Organic Green Wave Background Backdrop (Ref Image 2) */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] rounded-[4rem] border border-emerald-800/80 shadow-2xl" />
+                {/* Header inside Card: Subcategory Left, Rating Badge TOP RIGHT */}
+                <div className="w-full flex items-center justify-between mb-4">
+                  <span className="px-3.5 py-1.5 rounded-full bg-emerald-800/80 border border-emerald-700/80 text-emerald-300 text-[11px] font-extrabold uppercase tracking-wider">
+                    {activeItem.subCategory} • {activeItem.size}
+                  </span>
+                  
+                  {/* Rating Badge at TOP RIGHT */}
+                  <div className="px-3.5 py-1.5 rounded-full bg-white text-slate-800 text-xs font-extrabold flex items-center gap-1.5 shadow-md">
+                    <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    <span>4.9 / 5.0 Rating</span>
+                  </div>
+                </div>
 
-                {/* Main Circular Dish Photo Frame */}
-                <div className="relative z-10 w-[420px] h-[420px] rounded-full p-3 bg-white border-4 border-white shadow-2xl overflow-hidden group">
+                {/* Center: Large Circular Dish Photo */}
+                <div
+                  className="relative w-[210px] h-[210px] sm:w-[260px] sm:h-[260px] lg:w-[290px] lg:h-[290px] rounded-full p-2.5 bg-white border-4 border-white shadow-2xl overflow-hidden my-2 group"
+                  onClick={() => setQuickViewItem(activeItem)}
+                >
                   <div className="relative w-full h-full rounded-full overflow-hidden">
                     <Image
                       src={activeItem.image}
                       alt={activeItem.name}
                       fill
                       priority
-                      sizes="500px"
+                      sizes="340px"
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
                 </div>
 
-                {/* Rating Badge PLACED OUTSIDE THE CIRCULAR FRAME */}
-                <div className="relative z-20 mt-4 px-5 py-2 rounded-full bg-white text-slate-800 text-xs sm:text-sm font-extrabold flex items-center gap-2 shadow-xl border border-slate-200">
-                  <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                  <span>4.9 / 5.0 Rating</span>
+                {/* Footer inside SAME Card: Item Name, Price & Action Buttons */}
+                <div className="w-full mt-3 text-center space-y-2.5">
+                  <h3 className="text-base sm:text-lg font-bold text-white line-clamp-1">
+                    {activeItem.name}
+                  </h3>
+                  <div className="text-xl font-extrabold text-emerald-400 font-sans">
+                    {formatRupiah(activeItem.price)}
+                  </div>
+
+                  <div className="flex items-center justify-center gap-3 pt-1">
+                    <button
+                      onClick={() => setQuickViewItem(activeItem)}
+                      className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/20"
+                    >
+                      Detail
+                    </button>
+                    <button
+                      onClick={(e) => handleAddToCart(e, activeItem)}
+                      className={`px-5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all shadow-md ${
+                        addedItemMap[activeItem.id]
+                          ? 'bg-emerald-500 text-white'
+                          : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                      }`}
+                    >
+                      {addedItemMap[activeItem.id] ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Ditambah</span>
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Beli Sekarang</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
