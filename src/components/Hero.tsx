@@ -16,7 +16,6 @@ import {
 import { SIGNATURE_ITEMS } from '@/data/menu';
 import { useCart } from '@/context/CartContext';
 import { formatRupiah } from '@/lib/currency';
-import { OpeningStatusBadge } from './OpeningStatusBadge';
 
 export const Hero: React.FC = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -55,24 +54,16 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-24 pb-16 lg:py-24">
+    <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-20 pb-14 lg:py-20">
       {/* Background Ambient Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/70 via-teal-50/50 to-transparent rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-50/90 to-transparent rounded-full blur-[130px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
         
-        {/* 1. Small Badge & Status (Top) */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-3">
-          <span className="px-3.5 py-1 rounded-full bg-emerald-100/90 text-emerald-800 text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
-            LN Signature Menu
-          </span>
-          <OpeningStatusBadge />
-        </div>
-
-        {/* 2. Headline Copywriting */}
-        <div className="max-w-2xl mx-auto mb-4">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-3">
+        {/* 1. Headline Copywriting (Badges removed per user request) */}
+        <div className="max-w-2xl mx-auto mb-3">
+          <h1 className="text-3.5xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.1] mb-2">
             Taste the Best that <br />
             <span className="text-emerald-700 italic font-serif font-normal">
               Surprises You
@@ -84,8 +75,8 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 3. Apple-Style 3D Rotating Cover Flow Showcase */}
-        <div className="relative w-full max-w-5xl my-2 py-4 flex items-center justify-center min-h-[480px] sm:min-h-[530px] perspective-1000 overflow-visible">
+        {/* 2. Apple-Style 3D Rotating Cover Flow Showcase (Taller Image & Snug Text Layout) */}
+        <div className="relative w-full max-w-5xl my-2 py-2 flex items-center justify-center min-h-[500px] sm:min-h-[550px] perspective-1000 overflow-visible">
           {[-1, 0, 1].map((offset) => {
             const item = getItemAtOffset(offset);
             const isCenter = offset === 0;
@@ -116,18 +107,18 @@ export const Hero: React.FC = () => {
                 style={{ zIndex: isCenter ? 30 : 10 }}
                 className={`absolute rounded-[2.5rem] p-4 sm:p-5 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
                   isCenter
-                    ? 'w-[310px] sm:w-[370px] lg:w-[390px] h-[480px] sm:h-[520px]'
-                    : 'w-[260px] sm:w-[310px] h-[420px] sm:h-[450px] hidden sm:flex hover:opacity-90'
+                    ? 'w-[320px] sm:w-[380px] lg:w-[400px] h-[500px] sm:h-[540px]'
+                    : 'w-[270px] sm:w-[320px] h-[430px] sm:h-[470px] hidden sm:flex hover:opacity-90'
                 }`}
               >
-                {/* Taller Food Image Frame (Fills upper 60% of card, removing empty green space) */}
-                <div className="relative w-full h-[240px] sm:h-[280px] rounded-[2rem] overflow-hidden shadow-lg mb-3 bg-slate-100 shrink-0">
+                {/* Taller Food Image Frame (Fills almost 70% of card, removing empty green space - Ref Image 2) */}
+                <div className="relative w-full h-[280px] sm:h-[330px] rounded-[2rem] overflow-hidden shadow-lg mb-2 bg-slate-100 shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     priority={isCenter}
-                    sizes="(max-width: 640px) 320px, 420px"
+                    sizes="(max-width: 640px) 340px, 440px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Rating Badge Overlay Top Right */}
@@ -141,24 +132,24 @@ export const Hero: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Bottom Body (Compact & Snug) */}
-                <div className="flex-1 text-left flex flex-col justify-between pt-1">
+                {/* Card Bottom Body (Text & Description Snug against Price line) */}
+                <div className="flex-1 text-left flex flex-col justify-between pt-0.5">
                   <div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-1">
+                    <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-0.5">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-emerald-100/90 font-normal leading-snug line-clamp-2">
+                    <p className="text-xs text-emerald-100/90 font-normal leading-tight line-clamp-1">
                       {item.ingredients || 'Hidangan gourmet nabati spesial khas LN Fortunate Bali.'}
                     </p>
                   </div>
 
                   {/* Card Bottom Footer: Price + Large White Plus (+) Button */}
-                  <div className="flex items-center justify-between pt-2.5 border-t border-emerald-800/80 mt-2">
+                  <div className="flex items-center justify-between pt-2 border-t border-emerald-800/80 mt-1">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider">
                         HARGA
                       </span>
-                      <span className="text-xl sm:text-2xl font-extrabold text-white font-sans">
+                      <span className="text-xl sm:text-2xl font-extrabold text-white font-sans leading-none">
                         {formatRupiah(item.price)}
                       </span>
                     </div>
@@ -185,8 +176,8 @@ export const Hero: React.FC = () => {
           })}
         </div>
 
-        {/* 4. Navigation & Pagination Indicator */}
-        <div className="flex flex-col items-center gap-4 mt-2 w-full max-w-md">
+        {/* 3. Sleek Single-Line Horizontal Navigation Buttons (Ref Image 3) */}
+        <div className="flex flex-col items-center gap-3.5 mt-2 w-full max-w-lg">
           {/* 2.5s Auto-Slider Indicator Dots */}
           <div className="flex items-center gap-2">
             {SIGNATURE_ITEMS.map((item, idx) => (
@@ -206,30 +197,32 @@ export const Hero: React.FC = () => {
           <div className="flex items-center justify-center gap-3 w-full">
             <button
               onClick={handlePrev}
-              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg"
+              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg shrink-0"
               aria-label="Menu sebelumnya"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
 
+            {/* Single-Line Horizontal Button "Lihat Semua Menu" */}
             <Link
               href="/menu"
-              className="px-7 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="px-6 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs sm:text-sm whitespace-nowrap transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 shrink-0 inline-flex items-center justify-center"
             >
               Lihat Semua Menu
             </Link>
 
+            {/* Single-Line Horizontal Button "Keranjang" */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="px-5 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
+              className="px-5 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 shadow-sm shrink-0"
             >
-              <ShoppingBag className="w-4 h-4 text-emerald-700" />
-              <span className="hidden sm:inline">Keranjang</span>
+              <ShoppingBag className="w-4 h-4 text-emerald-700 shrink-0" />
+              <span>Keranjang</span>
             </button>
 
             <button
               onClick={handleNext}
-              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg"
+              className="p-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-800 transition-all border border-slate-200 shadow-md hover:shadow-lg shrink-0"
               aria-label="Menu selanjutnya"
             >
               <ChevronRight className="w-4 h-4" />
@@ -237,8 +230,8 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* 5. Bottom Favorite Food Card Grid */}
-        <div className="w-full mt-16 pt-10 border-t border-slate-100 text-left">
+        {/* 4. Bottom Favorite Food Card Grid */}
+        <div className="w-full mt-14 pt-8 border-t border-slate-100 text-left">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F291E]">
