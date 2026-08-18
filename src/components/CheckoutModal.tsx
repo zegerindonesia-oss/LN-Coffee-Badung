@@ -129,6 +129,13 @@ export const CheckoutModal: React.FC = () => {
     const ref = generateOrderReference();
     setOrderRef(ref);
 
+    const itemsText = cart
+      .map(
+        (i) =>
+          `${i.menuItem.name}${i.selectedLevel ? ` (${i.selectedLevel})` : ''} x${i.quantity}`
+      )
+      .join(', ');
+
     const orderPayload = {
       orderRef: ref,
       orderDate: new Date().toISOString(),
@@ -142,6 +149,7 @@ export const CheckoutModal: React.FC = () => {
       scheduledTime: formData.scheduledTime,
       generalNotes: formData.generalNotes,
       items: cart,
+      itemsText,
       totalAmount,
     };
 
@@ -153,6 +161,7 @@ export const CheckoutModal: React.FC = () => {
       totalAmount,
     });
 
+    // 1. Post to Next.js API Route
     try {
       await fetch('/api/order', {
         method: 'POST',
@@ -163,6 +172,22 @@ export const CheckoutModal: React.FC = () => {
       console.error('API order sync error:', err);
     }
 
+    // 2. Direct client backup POST to Google Sheets Script URL if configured in env
+    const clientScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SCRIPT_URL;
+    if (clientScriptUrl) {
+      try {
+        await fetch(clientScriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderPayload),
+        });
+      } catch (err) {
+        console.error('Direct client script post error:', err);
+      }
+    }
+
+    // 3. Launch WhatsApp
     openWhatsAppCheckout(formData, cart, totalAmount, ref);
     setIsSubmitting(false);
     setIsSubmitted(true);

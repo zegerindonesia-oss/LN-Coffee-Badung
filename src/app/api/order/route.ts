@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-// Default Google Apps Script URL or custom env var URL
 const GOOGLE_SHEETS_SCRIPT_URL =
   process.env.GOOGLE_SHEETS_SCRIPT_URL ||
   process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SCRIPT_URL ||
@@ -48,20 +47,20 @@ export async function POST(request: Request) {
       totalAmount: totalAmount || 0,
     };
 
-    console.log('[API Order Sync] Received customer order payload:', payload.orderRef, payload.customerName);
+    console.log('[API Order Sync] Order payload:', payload.orderRef, payload.customerName);
 
-    // Forward to Google Sheet Apps Script Web App Endpoint if configured
+    // Forward to Google Sheet Web App Endpoint if configured
     if (GOOGLE_SHEETS_SCRIPT_URL) {
       try {
-        const sheetResponse = await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+        await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
+          redirect: 'follow',
         });
-        const result = await sheetResponse.json().catch(() => null);
-        console.log('[API Order Sync] Google Sheet response:', result);
+        console.log('[API Order Sync] Data successfully posted to Google Sheet WebApp!');
       } catch (err) {
-        console.error('[API Order Sync] Error forwarding to Google Sheet WebApp:', err);
+        console.error('[API Order Sync] Error posting to Google Sheet WebApp:', err);
       }
     }
 
