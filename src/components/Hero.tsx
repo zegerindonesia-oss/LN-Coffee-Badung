@@ -5,18 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   ShoppingBag,
   Plus,
   Check,
   Star,
-  Clock,
   MapPin,
   Utensils,
-  Coffee,
-  Heart,
   ArrowRight,
 } from 'lucide-react';
 import { SIGNATURE_ITEMS } from '@/data/menu';
@@ -30,7 +26,6 @@ export const Hero: React.FC = () => {
   const { addToCart, setIsCartOpen, setQuickViewItem } = useCart();
   const [addedItemMap, setAddedItemMap] = useState<Record<number, boolean>>({});
 
-  // Auto slide every 5 seconds
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
@@ -62,97 +57,87 @@ export const Hero: React.FC = () => {
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-to-b from-[#06160e] via-[#0b2417] to-[#081a10] text-white pt-24 pb-12 lg:py-20"
+      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-28 pb-16 lg:py-24"
     >
-      {/* Dynamic Ambient Glass Glow Orbs */}
-      <div className="absolute top-1/4 left-10 w-96 h-96 bg-emerald-500/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-400/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-lime-500/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Soft Fresh Green Ambient Radial Highlights */}
+      <div className="absolute top-10 right-10 w-[500px] h-[500px] bg-emerald-100/60 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-teal-50/70 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        {/* Main Hero Grid */}
+        {/* Main Grid: Headline Left, Enlarged Dish Photo Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Headlines & Interactive Controls */}
+          {/* Left Column: Headlines & Copywriting */}
           <div className="lg:col-span-6 flex flex-col items-start text-left z-10">
-            {/* Top Badge & Operating Hours */}
+            
+            {/* Top Pill Badge & Status */}
             <div className="flex flex-wrap items-center gap-3 mb-5">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-xs font-semibold shadow-inner"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                <span>⭐ Signature Menu Headline</span>
-              </motion.div>
+              <span className="px-4 py-1.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-extrabold uppercase tracking-wider">
+                LN Fortunate Signature Menu
+              </span>
               <OpeningStatusBadge />
             </div>
 
-            {/* Main Headline with Smooth Slide Transition */}
+            {/* Main Headline */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeItem.id}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.4 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35 }}
                 className="w-full"
               >
-                <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12] mb-4">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-4">
                   Taste the Best that <br />
-                  <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-white bg-clip-text text-transparent italic">
+                  <span className="text-emerald-700 italic font-serif font-normal">
                     Surprises You
                   </span>
                 </h1>
 
-                <p className="text-sm sm:text-base lg:text-lg text-sage-100/90 leading-relaxed font-light max-w-xl mb-6">
+                <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed font-normal max-w-xl mb-6">
                   {activeItem.ingredients ||
-                    'Sajian gourmet plant-based khas LN Fortunate Coffee Bali. Diolah dari bahan nabati alami pilihan tanpa pengawet dan tanpa MSG.'}
+                    'Sajian gourmet plant-based khas LN Fortunate Coffee Bali. Diolah dari bahan nabati alami pilihan tanpa pengawet dan 100% tanpa MSG.'}
                 </p>
 
-                {/* Active Item Highlight Box */}
-                <div className="mb-7 p-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-between gap-4 max-w-lg">
+                {/* Active Item Details & Price Pill */}
+                <div className="mb-7 p-4 rounded-3xl bg-slate-50 border border-slate-200/80 shadow-sm flex items-center justify-between gap-4 max-w-lg">
                   <div>
-                    <span className="text-[10px] text-emerald-300 uppercase tracking-widest font-bold block">
+                    <span className="text-[10px] text-emerald-700 uppercase tracking-widest font-extrabold block">
                       {activeItem.subCategory} • {activeItem.size}
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-white line-clamp-1">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1">
                       {activeItem.name}
                     </h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xl font-extrabold text-emerald-400 font-sans">
-                        {formatRupiah(activeItem.price)}
-                      </span>
-                      <span className="text-xs text-sage-300 line-through">
-                        {formatRupiah(activeItem.price * 1.15)}
-                      </span>
-                    </div>
+                    <span className="text-lg font-extrabold text-emerald-700 font-sans">
+                      {formatRupiah(activeItem.price)}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => setQuickViewItem(activeItem)}
-                      className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold transition-all backdrop-blur-sm"
+                      className="px-4 py-2 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold transition-all shadow-sm"
                     >
                       Detail
                     </button>
                     <button
                       onClick={(e) => handleAddToCart(e, activeItem)}
-                      className={`px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all shadow-md ${
+                      className={`px-5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all shadow-md ${
                         addedItemMap[activeItem.id]
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-950/50'
+                          ? 'bg-emerald-800 text-white'
+                          : 'bg-emerald-700 hover:bg-emerald-800 text-white'
                       }`}
                     >
                       {addedItemMap[activeItem.id] ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>Added</span>
+                          <span>Ditambah</span>
                         </>
                       ) : (
                         <>
                           <Plus className="w-3.5 h-3.5" />
-                          <span>Buy Now</span>
+                          <span>Beli Sekarang</span>
                         </>
                       )}
                     </button>
@@ -165,32 +150,31 @@ export const Hero: React.FC = () => {
             <div className="flex flex-wrap items-center gap-4 w-full">
               <Link
                 href="/menu"
-                className="px-7 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-bold text-sm sm:text-base transition-all shadow-lg shadow-rose-950/50 hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2"
+                className="px-8 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm sm:text-base transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>See Full Menu</span>
+                Lihat Semua Menu
               </Link>
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm sm:text-base transition-all backdrop-blur-md hover:-translate-y-0.5 flex items-center gap-2"
+                className="px-7 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-sm sm:text-base transition-all flex items-center gap-2"
               >
-                <ShoppingBag className="w-4 h-4 text-emerald-400" />
-                <span>View Cart</span>
+                <ShoppingBag className="w-4 h-4 text-emerald-700" />
+                <span>Keranjang Belanja</span>
               </button>
 
-              {/* Slider Arrow Buttons */}
+              {/* Slider Arrows */}
               <div className="flex items-center gap-2 ml-auto">
                 <button
                   onClick={handlePrev}
-                  className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-all backdrop-blur-md active:scale-95"
-                  aria-label="Slide sebelumnya"
+                  className="p-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200"
+                  aria-label="Menu sebelumnya"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-all backdrop-blur-md active:scale-95"
-                  aria-label="Slide selanjutnya"
+                  className="p-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200"
+                  aria-label="Menu selanjutnya"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -198,36 +182,36 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Featured Large Dish Showcase Photo */}
+          {/* Right Column: Enlarged Headline Dish Image (Reference Image 3) */}
           <div className="lg:col-span-6 relative flex justify-center items-center">
-            {/* Soft Circular Glass Glow Behind Plate */}
-            <div className="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-tr from-emerald-500/20 to-teal-300/10 border border-white/10 backdrop-blur-2xl animate-pulse pointer-events-none" />
+            
+            {/* Ambient Circular Gradient Frame */}
+            <div className="absolute w-[340px] h-[340px] sm:w-[480px] sm:h-[480px] lg:w-[540px] lg:h-[540px] rounded-full bg-gradient-to-tr from-emerald-100/70 to-teal-50/50 border border-emerald-200/60 pointer-events-none" />
 
-            {/* Active Main Dish Image Frame */}
+            {/* Main Featured Dish Circular Frame */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeItem.id}
-                initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.9, rotate: 3 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[420px] lg:h-[420px] rounded-full p-3 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-emerald-950/80 group overflow-hidden"
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+                className="relative w-[320px] h-[320px] sm:w-[450px] sm:h-[450px] lg:w-[520px] lg:h-[520px] rounded-full p-3 bg-white border-4 border-white shadow-2xl overflow-hidden group"
               >
-                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/20">
+                <div className="relative w-full h-full rounded-full overflow-hidden">
                   <Image
                     src={activeItem.image}
                     alt={activeItem.name}
                     fill
                     priority
-                    sizes="(max-width: 768px) 300px, 450px"
+                    sizes="(max-width: 768px) 350px, 550px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/60 via-transparent to-transparent" />
                 </div>
 
-                {/* Floating Rating Badge */}
-                <div className="absolute bottom-6 left-6 px-3.5 py-1.5 rounded-full bg-forest-950/90 backdrop-blur-md border border-white/20 text-xs text-white font-bold flex items-center gap-1.5 shadow-xl">
-                  <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                {/* Rating Badge */}
+                <div className="absolute bottom-8 left-8 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md text-xs font-bold text-slate-800 flex items-center gap-1.5 shadow-xl border border-slate-100">
+                  <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
                   <span>4.9 / 5.0 Rating</span>
                 </div>
               </motion.div>
@@ -235,56 +219,83 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Section: Signature Menu Slider Cards (Interactive Bar) */}
-        <div className="mt-12 lg:mt-16 pt-8 border-t border-white/10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-400 flex items-center gap-2">
-              <Utensils className="w-4 h-4" />
-              <span>Signature Menu Headlines & Slider</span>
-            </h2>
-            <span className="text-xs text-sage-300 font-mono">
-              0{currentIdx + 1} / 0{SIGNATURE_ITEMS.slice(0, 4).length}
-            </span>
+        {/* Bottom Section: Favorite Food Card Grid (Reference Image 4 Style) */}
+        <div className="mt-16 pt-10 border-t border-slate-100">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F291E]">
+                Favorite Food
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Pilihan menu favorit yang paling sering dipesan di LN Fortunate Bali
+              </p>
+            </div>
+
+            <Link
+              href="/menu"
+              className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 transition-colors"
+            >
+              <span>View More</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          {/* Cards Grid: Green & White Card Variations */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {SIGNATURE_ITEMS.slice(0, 4).map((item, idx) => {
-              const isSelected = currentIdx === idx;
+              const isGreenCard = idx % 2 === 1; // Alternating green and white card variations matching Image 4
               return (
                 <motion.div
                   key={item.id}
-                  whileHover={{ y: -4 }}
+                  whileHover={{ y: -6 }}
                   onClick={() => setCurrentIdx(idx)}
-                  className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-center gap-3 backdrop-blur-md ${
-                    isSelected
-                      ? 'bg-white/20 border-emerald-400 shadow-lg shadow-emerald-950/50'
-                      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                  className={`relative rounded-[2rem] p-5 cursor-pointer flex flex-col justify-between transition-all shadow-md hover:shadow-xl ${
+                    isGreenCard
+                      ? 'bg-emerald-800 text-white'
+                      : 'bg-white border border-slate-100 text-slate-900'
                   }`}
                 >
-                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-forest-900">
+                  {/* Dish Image */}
+                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-sm border border-black/5 bg-slate-100">
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      sizes="60px"
-                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 300px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-bold text-white line-clamp-1">
+
+                  <div>
+                    <h3 className="font-bold text-base line-clamp-1 mb-1">
                       {item.name}
-                    </h4>
-                    <p className="text-[11px] font-semibold text-emerald-300 font-sans mt-0.5">
-                      {formatRupiah(item.price)}
+                    </h3>
+                    <p
+                      className={`text-xs line-clamp-2 min-h-[32px] font-normal leading-relaxed mb-4 ${
+                        isGreenCard ? 'text-emerald-100/90' : 'text-slate-500'
+                      }`}
+                    >
+                      {item.ingredients || 'Hidangan gurih lezat resep rahasia khas LN Fortunate.'}
                     </p>
                   </div>
-                  <button
-                    onClick={(e) => handleAddToCart(e, item)}
-                    className="p-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white shrink-0 shadow-sm transition-colors"
-                    title="Tambah ke keranjang"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
+
+                  {/* Card Footer Price & Rounded Full + Button */}
+                  <div className="flex items-center justify-between pt-3 border-t border-black/10">
+                    <span className="font-bold text-base font-sans">
+                      {formatRupiah(item.price)}
+                    </span>
+                    <button
+                      onClick={(e) => handleAddToCart(e, item)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md transition-transform active:scale-95 ${
+                        isGreenCard
+                          ? 'bg-white text-emerald-800 hover:bg-slate-100'
+                          : 'bg-emerald-700 text-white hover:bg-emerald-800'
+                      }`}
+                      aria-label={`Tambah ${item.name}`}
+                    >
+                      <Plus className="w-5 h-5" />
+                    </button>
+                  </div>
                 </motion.div>
               );
             })}

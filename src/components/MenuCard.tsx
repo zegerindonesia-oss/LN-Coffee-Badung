@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
 import { useCart } from '@/context/CartContext';
 import { formatRupiah } from '@/lib/currency';
-import { Plus, Eye, Sparkles, Check } from 'lucide-react';
+import { Plus, Eye, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface MenuCardProps {
@@ -41,16 +41,16 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
-      className="group relative bg-white rounded-2xl sm:rounded-3xl border border-sage-200/80 hover:border-terracotta-300 shadow-soft hover:shadow-lift transition-all duration-300 flex flex-col overflow-hidden"
+      viewport={{ once: true, margin: '-30px' }}
+      transition={{ duration: 0.3 }}
+      className="group relative bg-white rounded-[2rem] border border-slate-200/80 hover:border-emerald-300 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden"
     >
-      {/* 4:3 Image Container with Hover Zoom and Badges */}
+      {/* Image Frame */}
       <div
         onClick={handleOpenDetail}
-        className="relative w-full aspect-[4/3] bg-ivory-200 overflow-hidden cursor-pointer"
+        className="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer"
       >
         <Image
           src={imgSrc}
@@ -60,37 +60,35 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
           className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
           onError={() => setImgSrc(FALLBACK_IMAGE)}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Badges on Top Left */}
+        {/* Clean Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {isSignature && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-forest-900/90 backdrop-blur-md text-terracotta-300 text-[10px] font-bold tracking-wide uppercase shadow-sm border border-forest-700">
-              <Sparkles className="w-2.5 h-2.5" />
+            <span className="px-3 py-1 rounded-full bg-emerald-800/90 backdrop-blur-md text-white text-[10px] font-extrabold tracking-wider uppercase shadow-sm">
               LN Signature
             </span>
           )}
           {isBestSeller && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-terracotta-500/90 backdrop-blur-md text-white text-[10px] font-bold tracking-wide uppercase shadow-sm">
+            <span className="px-3 py-1 rounded-full bg-amber-500/90 backdrop-blur-md text-white text-[10px] font-extrabold tracking-wider uppercase shadow-sm">
               Best Seller
             </span>
           )}
         </div>
 
-        {/* Portion / Size Badge on Top Right */}
+        {/* Size Badge */}
         <div className="absolute top-3 right-3 z-10">
-          <span className="px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-md text-charcoal-800 text-[11px] font-medium shadow-sm border border-sage-100">
+          <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-slate-800 text-[11px] font-bold shadow-sm border border-slate-200">
             {item.size}
           </span>
         </div>
 
-        {/* Quick View Button on Hover */}
+        {/* Quick View Eye Button */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleOpenDetail();
           }}
-          className="absolute bottom-3 right-3 p-2 rounded-xl bg-white/90 backdrop-blur-md text-forest-900 hover:bg-forest-900 hover:text-white shadow-md transition-all opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
+          className="absolute bottom-3 right-3 p-2.5 rounded-full bg-white/95 backdrop-blur-md text-slate-800 hover:bg-emerald-700 hover:text-white shadow-md transition-all opacity-0 group-hover:opacity-100"
           aria-label={`Lihat detail ${item.name}`}
           title="Lihat Detail Menu"
         >
@@ -98,58 +96,49 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
         </button>
       </div>
 
-      {/* Card Body */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+      {/* Card Content Body */}
+      <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Subcategory Label */}
-          <p className="text-[11px] font-semibold text-sage-600 uppercase tracking-wider mb-1">
+          <p className="text-[11px] font-extrabold text-emerald-700 uppercase tracking-wider mb-1">
             {item.subCategory}
           </p>
 
-          {/* Product Name */}
           <h3
             onClick={handleOpenDetail}
-            className="font-serif text-base sm:text-lg font-bold text-forest-950 group-hover:text-terracotta-600 transition-colors line-clamp-1 cursor-pointer"
+            className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1 cursor-pointer"
             title={item.name}
           >
             {item.name}
           </h3>
 
-          {/* Ingredients / Description (2 lines) */}
-          <p className="text-xs text-charcoal-700/80 line-clamp-2 mt-1.5 min-h-[32px] font-light leading-relaxed">
-            {item.ingredients || 'Hidangan sehat berbasis nabati dengan bahan berkualitas pilihan khas Bali.'}
+          <p className="text-xs text-slate-500 line-clamp-2 mt-1.5 min-h-[32px] font-normal leading-relaxed">
+            {item.ingredients || 'Sajikan sehat alami berbasis tanaman resep kuliner istimewa khas LN Fortunate Coffee.'}
           </p>
         </div>
 
-        {/* Price and Action Section */}
-        <div className="mt-4 pt-3 border-t border-sage-100 flex items-center justify-between gap-2">
+        {/* Price & Rounded Full Plus Button */}
+        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <div>
-            <span className="text-[10px] text-charcoal-500 uppercase block leading-none">Harga</span>
-            <span className="font-sans font-bold text-base sm:text-lg text-forest-900">
+            <span className="text-[10px] text-slate-400 uppercase block font-semibold">Harga</span>
+            <span className="font-sans font-extrabold text-base sm:text-lg text-emerald-800">
               {formatRupiah(item.price)}
             </span>
           </div>
 
           <motion.button
-            whileTap={{ scale: 0.94 }}
+            whileTap={{ scale: 0.92 }}
             onClick={handleAddToCart}
-            className={`px-3.5 sm:px-4 py-2 rounded-xl font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-sm ${
+            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-md transition-all ${
               isJustAdded
-                ? 'bg-emerald-600 text-white'
-                : 'bg-forest-900 hover:bg-terracotta-500 text-white hover:shadow-terracotta'
+                ? 'bg-emerald-800'
+                : 'bg-emerald-700 hover:bg-emerald-800 hover:shadow-lg'
             }`}
             aria-label={`Tambah ${item.name} ke keranjang`}
           >
             {isJustAdded ? (
-              <>
-                <Check className="w-3.5 h-3.5 animate-bounce" />
-                <span>Ditambah</span>
-              </>
+              <Check className="w-5 h-5" />
             ) : (
-              <>
-                <Plus className="w-3.5 h-3.5" />
-                <span>Tambah</span>
-              </>
+              <Plus className="w-5 h-5" />
             )}
           </motion.button>
         </div>

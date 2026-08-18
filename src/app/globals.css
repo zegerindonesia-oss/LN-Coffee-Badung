@@ -1,50 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-outfit: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --bg-ivory: #F8F4EA;
-  --primary-forest: #173F35;
-  --accent-terracotta: #C96745;
+  --bg-main: #FFFFFF;
+  --primary-forest: #0F291E;
+  --accent-emerald: #16A34A;
+  --accent-green: #15803D;
 }
 
 html {
   scroll-behavior: smooth;
   font-family: var(--font-jakarta);
-  background-color: var(--bg-ivory);
-  color: #202522;
+  background-color: var(--bg-main);
+  color: #1E293B;
 }
 
 body {
-  background-color: var(--bg-ivory);
+  background-color: var(--bg-main);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Custom Smooth Scrollbar */
+/* Custom Clean Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1ebd7;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9ebeb1;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4e8271;
+  background: #94A3B8;
 }
 
-/* Hide scrollbar for clean horizontal tabs */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -53,12 +53,10 @@ body {
   scrollbar-width: none;
 }
 
-/* Safe bottom spacing for mobile notch/home bar */
 .safe-bottom {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
-/* Respect user's prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
