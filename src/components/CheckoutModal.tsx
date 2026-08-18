@@ -25,6 +25,10 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const DEFAULT_SCRIPT_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SCRIPT_URL ||
+  'https://script.google.com/macros/s/AKfycbxX6jz0SJe9PqsTvngpGfk1OWnq4QUGZDTB2_c5OkGwhYLRdAFpvC7gFceyr2x6Nlmg/exec';
+
 export const CheckoutModal: React.FC = () => {
   const {
     cart,
@@ -172,11 +176,10 @@ export const CheckoutModal: React.FC = () => {
       console.error('API order sync error:', err);
     }
 
-    // 2. Direct client backup POST to Google Sheets Script URL if configured in env
-    const clientScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SCRIPT_URL;
-    if (clientScriptUrl) {
+    // 2. Direct client backup POST to Google Sheets Script URL
+    if (DEFAULT_SCRIPT_URL) {
       try {
-        await fetch(clientScriptUrl, {
+        await fetch(DEFAULT_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },

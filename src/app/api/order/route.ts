@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const GOOGLE_SHEETS_SCRIPT_URL =
   process.env.GOOGLE_SHEETS_SCRIPT_URL ||
   process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SCRIPT_URL ||
-  '';
+  'https://script.google.com/macros/s/AKfycbxX6jz0SJe9PqsTvngpGfk1OWnq4QUGZDTB2_c5OkGwhYLRdAFpvC7gFceyr2x6Nlmg/exec';
 
 export async function POST(request: Request) {
   try {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     console.log('[API Order Sync] Order payload:', payload.orderRef, payload.customerName);
 
-    // Forward to Google Sheet Web App Endpoint if configured
+    // Forward to Google Sheet Web App Endpoint
     if (GOOGLE_SHEETS_SCRIPT_URL) {
       try {
         await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
