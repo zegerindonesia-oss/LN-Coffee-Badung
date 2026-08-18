@@ -17,18 +17,31 @@ export function createWhatsAppMessage(
     })
     .join('\n\n');
 
-  const deliveryAddressLine =
-    formData.orderType === 'Delivery' && formData.deliveryAddress
-      ? `• Alamat: ${formData.deliveryAddress.trim()}\n`
-      : '';
+  let orderTypeDetailLine = `• Jenis Pesanan: ${formData.orderType}\n`;
+  if (formData.orderType === 'Dine In' && formData.tableNumber) {
+    orderTypeDetailLine += `• Nomor Meja: ${formData.tableNumber.trim()}\n`;
+  } else if (formData.orderType === 'Delivery' && formData.deliveryAddress) {
+    orderTypeDetailLine += `• Alamat Pengiriman: ${formData.deliveryAddress.trim()}\n`;
+  } else if (formData.orderType === 'Pesanan Terjadwal') {
+    if (formData.scheduledDate) {
+      orderTypeDetailLine += `• Tanggal Terjadwal: ${formData.scheduledDate.trim()}\n`;
+    }
+    if (formData.scheduledTime) {
+      orderTypeDetailLine += `• Jam Terjadwal: ${formData.scheduledTime.trim()}\n`;
+    }
+  }
+
+  const emailLine = formData.customerEmail?.trim()
+    ? `• Email: ${formData.customerEmail.trim()}\n`
+    : '';
 
   const notesLine = formData.generalNotes?.trim()
     ? `• Catatan: ${formData.generalNotes.trim()}\n`
     : '• Catatan: -\n';
 
   const timeLine = formData.orderTime?.trim()
-    ? `• Waktu Pesanan: ${formData.orderTime.trim()}\n`
-    : '• Waktu Pesanan: Secepatnya\n';
+    ? `• Catatan Waktu: ${formData.orderTime.trim()}\n`
+    : '';
 
   const message = `Halo LN Fortunate Coffee Kapal 👋
 Saya ingin melakukan pemesanan via website.
@@ -36,9 +49,8 @@ Saya ingin melakukan pemesanan via website.
 📋 *DATA PEMESAN*
 • Ref: ${orderRef}
 • Nama: ${formData.customerName.trim()}
-• No. WhatsApp: ${formData.customerPhone.trim()}
-• Jenis Pesanan: ${formData.orderType}
-${deliveryAddressLine}${timeLine}${notesLine}
+${emailLine}• No. WhatsApp: ${formData.customerPhone.trim()}
+${orderTypeDetailLine}${timeLine}${notesLine}
 🍽️ *DETAIL PESANAN*
 ${itemsText}
 
@@ -59,7 +71,7 @@ export function openWhatsAppCheckout(
 ): void {
   const message = createWhatsAppMessage(formData, cartItems, totalAmount, orderRef);
   const whatsappUrl = `https://wa.me/${CHECKOUT_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  
+
   if (typeof window !== 'undefined') {
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   }

@@ -10,14 +10,19 @@ import {
   X,
   Send,
   User,
+  Mail,
   Phone,
   MapPin,
   Clock,
+  Calendar,
   FileText,
   CheckCircle2,
   AlertCircle,
   ShoppingBag,
   RotateCcw,
+  UtensilsCrossed,
+  Package,
+  Bike,
   Sparkles,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -32,17 +37,24 @@ export const CheckoutModal: React.FC = () => {
     setLastOrder,
   } = useCart();
 
+  const todayStr = new Date().toISOString().split('T')[0];
+
   const [formData, setFormData] = useState<CheckoutFormData>({
     customerName: '',
+    customerEmail: '',
     customerPhone: '',
-    orderType: 'Dine-in',
+    orderType: 'Dine In',
+    tableNumber: '',
     deliveryAddress: '',
+    scheduledDate: todayStr,
+    scheduledTime: '12:00',
     orderTime: 'Secepatnya',
     generalNotes: '',
     agreedToTerms: true,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [orderRef, setOrderRef] = useState('');
 
@@ -68,7 +80,13 @@ export const CheckoutModal: React.FC = () => {
       newErrors.customerName = 'Nama pemesan wajib diisi.';
     }
 
-    // Phone validation: Indonesian phone or standard international digits
+    if (
+      formData.customerEmail.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customerEmail.trim())
+    ) {
+      newErrors.customerEmail = 'Masukkan alamat email yang valid.';
+    }
+
     const cleanedPhone = formData.customerPhone.replace(/[^0-9+]/g, '');
     if (!cleanedPhone) {
       newErrors.customerPhone = 'Nomor WhatsApp wajib diisi.';
@@ -77,11 +95,24 @@ export const CheckoutModal: React.FC = () => {
     }
 
     if (formData.orderType === 'Delivery' && !formData.deliveryAddress?.trim()) {
-      newErrors.deliveryAddress = 'Alamat pengiriman wajib diisi untuk jenis Delivery.';
+      newErrors.deliveryAddress = 'Alamat pengiriman wajib diisi untuk Delivery.';
+    }
+
+    if (formData.orderType === 'Dine In' && !formData.tableNumber?.trim()) {
+      newErrors.tableNumber = 'Nomor meja wajib diisi untuk Dine In (isikan "Kasir" jika belum dapat meja).';
+    }
+
+    if (formData.orderType === 'Pesanan Terjadwal') {
+      if (!formData.scheduledDate) {
+        newErrors.scheduledDate = 'Pilih tanggal pesanan terjadwal.';
+      }
+      if (!formData.scheduledTime) {
+        newErrors.scheduledTime = 'Pilih jam pesanan terjadwal.';
+      }
     }
 
     if (!formData.agreedToTerms) {
-      newErrors.agreedToTerms = 'Harap centang persetujuan konfirmasi WhatsApp.';
+      newErrors.agreedToTerms = 'Harap centang persetujuan konfirmasi pesanan.';
     }
 
     if (cart.length === 0) {
@@ -92,12 +123,29 @@ export const CheckoutModal: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
+    setIsSubmitting(true);
     const ref = generateOrderReference();
     setOrderRef(ref);
+
+    const orderPayload = {
+      orderRef: ref,
+      orderDate: new Date().toISOString(),
+      customerName: formData.customerName,
+      customerEmail: formData.customerEmail,
+      customerPhone: formData.customerPhone,
+      orderType: formData.orderType,
+      tableNumber: formData.tableNumber,
+      deliveryAddress: formData.deliveryAddress,
+      scheduledDate: formData.scheduledDate,
+      scheduledTime: formData.scheduledTime,
+      generalNotes: formData.generalNotes,
+      items: cart,
+      totalAmount,
+    };
 
     // Save summary locally
     setLastOrder({
@@ -108,8 +156,20 @@ export const CheckoutModal: React.FC = () => {
       totalAmount,
     });
 
+    // Post data to Next.js API route for Google Sheet sync
+    try {
+      await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderPayload),
+      });
+    } catch (err) {
+      console.error('API order sync error:', err);
+    }
+
     // Launch WhatsApp
     openWhatsAppCheckout(formData, cart, totalAmount, ref);
+    setIsSubmitting(false);
     setIsSubmitted(true);
   };
 
@@ -120,97 +180,111 @@ export const CheckoutModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={() => setIsCheckoutOpen(false)}
-        className="fixed inset-0 bg-charcoal-950/75 backdrop-blur-sm"
+        className="fixed inset-0 bg-charcoal-950/80 backdrop-blur-md"
       />
 
-      {/* Modal Card */}
+      {/* Modal Container */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden z-10 border border-sage-200 max-h-[92vh] flex flex-col"
+        transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+        className="relative w-full max-w-xl bg-forest-950/95 border border-white/20 rounded-3xl shadow-2xl overflow-hidden z-10 text-white max-h-[92vh] flex flex-col backdrop-blur-xl"
       >
-        {/* Modal Header */}
-        <div className="p-5 sm:p-6 bg-forest-900 text-white flex items-center justify-between border-b border-forest-800">
+        {/* Header */}
+        <div className="p-4 sm:p-6 bg-forest-900/90 border-b border-forest-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
               <Send className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-serif text-lg sm:text-xl font-bold leading-tight">
-                {isSubmitted ? 'Pesanan Terkirim ke WhatsApp' : 'Formulir Checkout WhatsApp'}
+              <h2 className="font-serif text-lg sm:text-xl font-bold leading-tight text-white">
+                {isSubmitted ? 'Pesanan Berhasil Dicatat' : 'Checkout & Pesanan Web'}
               </h2>
               <p className="text-xs text-sage-300">
-                LN Fortunate Coffee Kapal • Badung, Bali
+                LN Fortunate Coffee • Kapal, Badung, Bali
               </p>
             </div>
           </div>
           <button
             onClick={() => setIsCheckoutOpen(false)}
             className="p-2 rounded-xl text-sage-300 hover:text-white hover:bg-forest-800 transition-colors"
-            aria-label="Tutup form checkout"
+            aria-label="Tutup checkout"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto flex-1">
+        {/* Body */}
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 custom-scrollbar">
           {isSubmitted ? (
-            /* Post-Submission Success View */
-            <div className="space-y-6 text-center py-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center shadow-inner">
+            /* Success View */
+            <div className="space-y-6 text-center py-3">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mx-auto flex items-center justify-center shadow-lg">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
 
               <div className="space-y-2">
-                <h3 className="font-serif text-2xl font-bold text-forest-950">
-                  Detail Pesanan Siap Dikonfirmasi!
+                <h3 className="font-serif text-2xl font-bold text-white">
+                  Pesanan & Data Tersimpan!
                 </h3>
-                <p className="text-xs sm:text-sm text-charcoal-700 max-w-md mx-auto">
-                  Aplikasi WhatsApp telah dibuka dengan pesan pesanan otomatis. Jika WhatsApp belum terbuka, silakan klik tombol di bawah.
+                <p className="text-xs sm:text-sm text-sage-200 max-w-md mx-auto leading-relaxed">
+                  Data Anda telah otomatis disinkronkan ke Google Sheet dan pesan WhatsApp resmi telah disiapkan.
                 </p>
               </div>
 
-              {/* Order Reference Box */}
-              <div className="p-4 rounded-2xl bg-ivory-100 border border-ivory-300 text-left space-y-2">
+              {/* Summary Box */}
+              <div className="p-4 rounded-2xl bg-white/10 border border-white/15 text-left space-y-2.5 backdrop-blur-md">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-charcoal-600 font-medium">Nomor Referensi:</span>
-                  <span className="font-mono font-bold text-forest-900 text-sm bg-white px-2 py-0.5 rounded border border-sage-200">
+                  <span className="text-sage-300">No. Referensi:</span>
+                  <span className="font-mono font-bold text-white text-sm bg-forest-900 px-2.5 py-0.5 rounded-lg border border-forest-700">
                     {orderRef}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-charcoal-600 font-medium">Pemesan:</span>
-                  <span className="font-semibold text-charcoal-900">
+                  <span className="text-sage-300">Pemesan:</span>
+                  <span className="font-semibold text-white">
                     {formData.customerName} ({formData.orderType})
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-charcoal-600 font-medium">Total Tagihan Menu:</span>
-                  <span className="font-bold text-terracotta-600 text-sm">
+                {formData.customerEmail && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-sage-300">Email:</span>
+                    <span className="font-mono text-sage-200">{formData.customerEmail}</span>
+                  </div>
+                )}
+                {formData.orderType === 'Pesanan Terjadwal' && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-sage-300">Jadwal Penyajian:</span>
+                    <span className="font-bold text-emerald-400">
+                      {formData.scheduledDate} jam {formData.scheduledTime}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-white/10">
+                  <span className="text-sage-300 font-medium">Total Pembayaran:</span>
+                  <span className="font-bold text-emerald-400 text-base">
                     {formatRupiah(totalAmount)}
                   </span>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-forest-50 border border-forest-100 text-xs text-forest-900 text-left">
-                💡 <span className="font-semibold">Langkah Selanjutnya:</span> Tim LN Fortunate Coffee akan memeriksa ketersediaan menu dapur, menghitung ongkir (bila delivery), lalu mengirimkan rekening transfer / kode QRIS resmi.
+              <div className="p-3.5 rounded-2xl bg-emerald-950/50 border border-emerald-500/30 text-xs text-emerald-200 text-left leading-relaxed">
+                💡 <span className="font-bold">Informasi:</span> Jika jendela WhatsApp belum terbuka otomatis di perangkat Anda, silakan klik tombol di bawah untuk menyelesaikan konfirmasi stok & pembayaran.
               </div>
 
               {/* Actions */}
               <div className="space-y-3 pt-2">
                 <button
                   onClick={() => openWhatsAppCheckout(formData, cart, totalAmount, orderRef)}
-                  className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all"
                 >
                   <Send className="w-4 h-4" />
                   <span>Buka Kembali WhatsApp ({CHECKOUT_WHATSAPP_NUMBER})</span>
@@ -218,100 +292,41 @@ export const CheckoutModal: React.FC = () => {
 
                 <button
                   onClick={handleClearAndClose}
-                  className="w-full py-3 px-4 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-terracotta"
+                  className="w-full py-3 px-4 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Pesanan Sudah Terkirim, Kosongkan Keranjang</span>
-                </button>
-
-                <button
-                  onClick={() => setIsCheckoutOpen(false)}
-                  className="w-full py-2.5 text-xs text-charcoal-600 hover:text-forest-900 transition-colors"
-                >
-                  Tutup & Kembali ke Menu
+                  <span>Kosongkan Keranjang & Pesan Lagi</span>
                 </button>
               </div>
             </div>
           ) : (
             /* Checkout Form View */
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Order Items Preview Pill */}
-              <div className="p-3 rounded-2xl bg-ivory-100 border border-ivory-300 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-forest-900 font-semibold">
-                  <ShoppingBag className="w-4 h-4 text-terracotta-500" />
-                  <span>{cart.length} Menu ({cart.reduce((s, i) => s + i.quantity, 0)} Porsi)</span>
+              {/* Order Cart Summary Banner */}
+              <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-between text-xs backdrop-blur-md">
+                <div className="flex items-center gap-2 text-white font-semibold">
+                  <ShoppingBag className="w-4 h-4 text-emerald-400" />
+                  <span>{cart.length} Jenis Menu ({cart.reduce((s, i) => s + i.quantity, 0)} Porsi)</span>
                 </div>
-                <span className="font-bold text-forest-950 text-sm">
-                  Total: {formatRupiah(totalAmount)}
+                <span className="font-bold text-emerald-400 text-sm">
+                  {formatRupiah(totalAmount)}
                 </span>
               </div>
 
               {errors.cart && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
+                <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
                   <span>{errors.cart}</span>
                 </div>
               )}
 
-              {/* Customer Name */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-forest-950 flex items-center gap-1.5 uppercase tracking-wide">
-                  <User className="w-3.5 h-3.5 text-terracotta-500" />
-                  <span>Nama Pelanggan <span className="text-rose-500">*</span></span>
+              {/* Order Type Selector Tabs */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-sage-200 uppercase tracking-wide block">
+                  Pilih Mode Pesanan <span className="text-rose-400">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.customerName}
-                  onChange={(e) => {
-                    setFormData({ ...formData, customerName: e.target.value });
-                    if (errors.customerName) setErrors({ ...errors, customerName: '' });
-                  }}
-                  placeholder="Contoh: Budi Santoso / Sarah"
-                  className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 bg-white ${
-                    errors.customerName
-                      ? 'border-rose-400 focus:ring-rose-400'
-                      : 'border-sage-300 focus:ring-terracotta-400'
-                  }`}
-                />
-                {errors.customerName && (
-                  <p className="text-[11px] text-rose-600 font-medium">{errors.customerName}</p>
-                )}
-              </div>
-
-              {/* Customer Phone / WhatsApp */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-forest-950 flex items-center gap-1.5 uppercase tracking-wide">
-                  <Phone className="w-3.5 h-3.5 text-terracotta-500" />
-                  <span>Nomor WhatsApp Aktif <span className="text-rose-500">*</span></span>
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.customerPhone}
-                  onChange={(e) => {
-                    setFormData({ ...formData, customerPhone: e.target.value });
-                    if (errors.customerPhone) setErrors({ ...errors, customerPhone: '' });
-                  }}
-                  placeholder="Contoh: 08123456789 atau 628123456789"
-                  className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 bg-white ${
-                    errors.customerPhone
-                      ? 'border-rose-400 focus:ring-rose-400'
-                      : 'border-sage-300 focus:ring-terracotta-400'
-                  }`}
-                />
-                {errors.customerPhone && (
-                  <p className="text-[11px] text-rose-600 font-medium">{errors.customerPhone}</p>
-                )}
-              </div>
-
-              {/* Order Type Selector */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-forest-950 uppercase tracking-wide block">
-                  Jenis Pesanan <span className="text-rose-500">*</span>
-                </label>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {(['Dine-in', 'Pickup', 'Delivery'] as OrderType[]).map((type) => {
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {(['Dine In', 'Take Away', 'Delivery', 'Pesanan Terjadwal'] as OrderType[]).map((type) => {
                     const isSelected = formData.orderType === type;
                     return (
                       <button
@@ -319,29 +334,54 @@ export const CheckoutModal: React.FC = () => {
                         type="button"
                         onClick={() => {
                           setFormData({ ...formData, orderType: type });
-                          if (errors.deliveryAddress) setErrors({ ...errors, deliveryAddress: '' });
+                          setErrors({ ...errors, deliveryAddress: '', tableNumber: '', scheduledDate: '' });
                         }}
-                        className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all ${
+                        className={`py-2.5 px-2 rounded-xl border text-[11px] sm:text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 ${
                           isSelected
-                            ? 'bg-forest-900 text-white border-forest-900 shadow-sm'
-                            : 'bg-white text-charcoal-700 border-sage-200 hover:border-terracotta-300'
+                            ? 'bg-emerald-600 text-white border-emerald-400 shadow-md shadow-emerald-950/50'
+                            : 'bg-white/5 text-sage-300 border-white/10 hover:bg-white/15 hover:text-white'
                         }`}
                       >
-                        {type === 'Dine-in' && '🍽️ Makan di Tempat'}
-                        {type === 'Pickup' && '🛍️ Ambil Sendiri'}
-                        {type === 'Delivery' && '🛵 Pesan Antar'}
+                        {type === 'Dine In' && <UtensilsCrossed className="w-3.5 h-3.5" />}
+                        {type === 'Take Away' && <Package className="w-3.5 h-3.5" />}
+                        {type === 'Delivery' && <Bike className="w-3.5 h-3.5" />}
+                        {type === 'Pesanan Terjadwal' && <Calendar className="w-3.5 h-3.5" />}
+                        <span className="text-center">{type}</span>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Conditional Delivery Address */}
+              {/* Dynamic Inputs Based on Order Type */}
+              {formData.orderType === 'Dine In' && (
+                <div className="space-y-1.5 p-3.5 rounded-2xl bg-white/5 border border-white/10">
+                  <label className="text-xs font-bold text-sage-200 flex items-center gap-1.5 uppercase tracking-wide">
+                    <UtensilsCrossed className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Nomor Meja <span className="text-rose-400">*</span></span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.tableNumber}
+                    onChange={(e) => {
+                      setFormData({ ...formData, tableNumber: e.target.value });
+                      if (errors.tableNumber) setErrors({ ...errors, tableNumber: '' });
+                    }}
+                    placeholder="Contoh: Meja 05 (atau ketik 'Kasir')"
+                    className="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-forest-900/90 text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                  />
+                  {errors.tableNumber && (
+                    <p className="text-[11px] text-rose-400 font-medium">{errors.tableNumber}</p>
+                  )}
+                </div>
+              )}
+
               {formData.orderType === 'Delivery' && (
-                <div className="space-y-1.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
-                  <label className="text-xs font-bold text-forest-950 flex items-center gap-1.5 uppercase tracking-wide">
-                    <MapPin className="w-3.5 h-3.5 text-terracotta-500" />
-                    <span>Alamat Lengkap Pengiriman <span className="text-rose-500">*</span></span>
+                <div className="space-y-1.5 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+                  <label className="text-xs font-bold text-amber-300 flex items-center gap-1.5 uppercase tracking-wide">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Alamat Pengiriman Lengkap <span className="text-rose-400">*</span></span>
                   </label>
                   <textarea
                     required
@@ -352,54 +392,138 @@ export const CheckoutModal: React.FC = () => {
                       if (errors.deliveryAddress) setErrors({ ...errors, deliveryAddress: '' });
                     }}
                     placeholder="Nama jalan, nomor rumah/villa/hotel, patokan lokasi..."
-                    className={`w-full px-3.5 py-2 rounded-xl border text-xs focus:outline-none focus:ring-2 bg-white ${
-                      errors.deliveryAddress
-                        ? 'border-rose-400 focus:ring-rose-400'
-                        : 'border-sage-300 focus:ring-terracotta-400'
-                    }`}
+                    className="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-forest-900/90 text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   />
                   {errors.deliveryAddress && (
-                    <p className="text-[11px] text-rose-600 font-medium">{errors.deliveryAddress}</p>
+                    <p className="text-[11px] text-rose-400 font-medium">{errors.deliveryAddress}</p>
                   )}
-                  <p className="text-[11px] text-amber-800">
+                  <p className="text-[11px] text-amber-300/80">
                     * Ongkos kirim akan dihitung oleh tim restoran via WhatsApp sesuai jarak lokasi pengantaran.
                   </p>
                 </div>
               )}
 
-              {/* Preferred Order Time */}
+              {formData.orderType === 'Pesanan Terjadwal' && (
+                <div className="space-y-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wide">
+                    <Calendar className="w-4 h-4" />
+                    <span>Pilih Tanggal & Jam Pesanan Terjadwal</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-sage-300 font-medium">Tanggal Pengambilan / Makan:</label>
+                      <input
+                        type="date"
+                        required
+                        min={todayStr}
+                        value={formData.scheduledDate}
+                        onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-white/20 bg-forest-900/90 text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-sage-300 font-medium">Jam Pengambilan / Makan:</label>
+                      <input
+                        type="time"
+                        required
+                        value={formData.scheduledTime}
+                        onChange={(e) => setFormData({ ...formData, scheduledTime: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-white/20 bg-forest-900/90 text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      />
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-emerald-300/80">
+                    * Jam operasional dapur: 11:00 – 20:30 WITA (Selasa–Minggu).
+                  </p>
+                </div>
+              )}
+
+              {/* Customer Name */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-forest-950 flex items-center gap-1.5 uppercase tracking-wide">
-                  <Clock className="w-3.5 h-3.5 text-terracotta-500" />
-                  <span>Waktu Pengambilan / Penyajian</span>
+                <label className="text-xs font-bold text-sage-200 flex items-center gap-1.5 uppercase tracking-wide">
+                  <User className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Nama Lengkap Pelanggan <span className="text-rose-400">*</span></span>
                 </label>
                 <input
                   type="text"
-                  value={formData.orderTime}
-                  onChange={(e) => setFormData({ ...formData, orderTime: e.target.value })}
-                  placeholder="Contoh: Secepatnya / Hari ini jam 13:00 WITA"
-                  className="w-full px-4 py-2.5 rounded-xl border border-sage-300 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-400 bg-white"
+                  required
+                  value={formData.customerName}
+                  onChange={(e) => {
+                    setFormData({ ...formData, customerName: e.target.value });
+                    if (errors.customerName) setErrors({ ...errors, customerName: '' });
+                  }}
+                  placeholder="Contoh: Budi Santoso / Sarah"
+                  className="w-full px-4 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white placeholder-sage-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 />
+                {errors.customerName && (
+                  <p className="text-[11px] text-rose-400 font-medium">{errors.customerName}</p>
+                )}
+              </div>
+
+              {/* Customer Email */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-sage-200 flex items-center gap-1.5 uppercase tracking-wide">
+                  <Mail className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Alamat Email (Untuk Bukti & Data Customer)</span>
+                </label>
+                <input
+                  type="email"
+                  value={formData.customerEmail}
+                  onChange={(e) => {
+                    setFormData({ ...formData, customerEmail: e.target.value });
+                    if (errors.customerEmail) setErrors({ ...errors, customerEmail: '' });
+                  }}
+                  placeholder="Contoh: budi@gmail.com"
+                  className="w-full px-4 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white placeholder-sage-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                />
+                {errors.customerEmail && (
+                  <p className="text-[11px] text-rose-400 font-medium">{errors.customerEmail}</p>
+                )}
+              </div>
+
+              {/* Customer Phone / WhatsApp */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-sage-200 flex items-center gap-1.5 uppercase tracking-wide">
+                  <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Nomor WhatsApp Aktif <span className="text-rose-400">*</span></span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={formData.customerPhone}
+                  onChange={(e) => {
+                    setFormData({ ...formData, customerPhone: e.target.value });
+                    if (errors.customerPhone) setErrors({ ...errors, customerPhone: '' });
+                  }}
+                  placeholder="Contoh: 08123456789 atau 628123456789"
+                  className="w-full px-4 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white placeholder-sage-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                />
+                {errors.customerPhone && (
+                  <p className="text-[11px] text-rose-400 font-medium">{errors.customerPhone}</p>
+                )}
               </div>
 
               {/* General Notes */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-forest-950 flex items-center gap-1.5 uppercase tracking-wide">
-                  <FileText className="w-3.5 h-3.5 text-terracotta-500" />
+                <label className="text-xs font-bold text-sage-200 flex items-center gap-1.5 uppercase tracking-wide">
+                  <FileText className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Catatan Tambahan untuk Kasir (Opsional)</span>
                 </label>
                 <textarea
                   rows={2}
                   value={formData.generalNotes}
                   onChange={(e) => setFormData({ ...formData, generalNotes: e.target.value })}
-                  placeholder="Contoh: Siapkan struk, packing terpisah, dll."
-                  className="w-full px-4 py-2 rounded-xl border border-sage-300 text-xs focus:outline-none focus:ring-2 focus:ring-terracotta-400 bg-white"
+                  placeholder="Contoh: Tanpa saus pedas, bungkus terpisah, siapkan struk..."
+                  className="w-full px-4 py-2 rounded-xl border border-white/20 bg-white/10 text-white placeholder-sage-400 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400"
                 />
               </div>
 
               {/* Confirmation Terms Checkbox */}
-              <div className="space-y-1">
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-charcoal-800 leading-normal">
+              <div className="space-y-1 pt-1">
+                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-sage-300 leading-normal">
                   <input
                     type="checkbox"
                     checked={formData.agreedToTerms}
@@ -407,25 +531,30 @@ export const CheckoutModal: React.FC = () => {
                       setFormData({ ...formData, agreedToTerms: e.target.checked });
                       if (errors.agreedToTerms) setErrors({ ...errors, agreedToTerms: '' });
                     }}
-                    className="mt-0.5 h-4 w-4 rounded border-sage-300 text-terracotta-500 focus:ring-terracotta-400"
+                    className="mt-0.5 h-4 w-4 rounded border-white/30 text-emerald-500 focus:ring-emerald-400"
                   />
                   <span>
-                    Saya memahami pesanan akan diteruskan ke WhatsApp PIC LN Fortunate Coffee untuk konfirmasi stok, ongkir, dan pembayaran via QRIS/Transfer.
+                    Saya setuju data pesanan ini disimpan ke database Google Sheet restoran dan diteruskan ke WhatsApp resmi LN Fortunate Coffee.
                   </span>
                 </label>
                 {errors.agreedToTerms && (
-                  <p className="text-[11px] text-rose-600 font-medium">{errors.agreedToTerms}</p>
+                  <p className="text-[11px] text-rose-400 font-medium">{errors.agreedToTerms}</p>
                 )}
               </div>
 
-              {/* Submit CTA */}
-              <div className="pt-3 border-t border-sage-200">
+              {/* Submit Button */}
+              <div className="pt-3 border-t border-white/10">
                 <button
                   type="submit"
-                  className="w-full py-4 px-6 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 active:bg-terracotta-700 text-white font-semibold text-sm sm:text-base flex items-center justify-center gap-2.5 transition-all shadow-terracotta hover:shadow-xl"
+                  disabled={isSubmitting}
+                  className="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold text-sm sm:text-base flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-emerald-950/50 hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
-                  <span>Kirim Pesanan ke WhatsApp ({formatRupiah(totalAmount)})</span>
+                  <span>
+                    {isSubmitting
+                      ? 'Menyimpan & Menghubungkan...'
+                      : `Kirim Pesanan ke WhatsApp (${formatRupiah(totalAmount)})`}
+                  </span>
                 </button>
               </div>
             </form>

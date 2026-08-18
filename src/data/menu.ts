@@ -1,5 +1,5 @@
 // Centralized Menu Data for LN Fortunate Coffee - Kapal, Bali
-// Sourced & calibrated from official QA Menu Dataset
+// Sourced & calibrated from official QA Menu Dataset & Google Sheet Column I
 import { MenuItem } from '@/types/menu';
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -15,7 +15,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Local Coffee Beans brewed with V60 dripper",
     "price": 40000,
     "size": "Regular",
-    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1791B-iPaYkBkk1hHJM4YBjWsQ1mz0-e3"
   },
   {
     "id": 2,
@@ -29,7 +29,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Imported Coffee Beans brewed with V60 dripper",
     "price": 50000,
     "size": "Regular",
-    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1HKyJHbHAizRZ1M5gLDURmulNwGhiXlCO"
   },
   {
     "id": 3,
@@ -223,7 +223,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Indonesian mixed Spices, Rosella & Rock Sugar",
     "price": 25000,
     "size": "Cup",
-    "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1ko8Y6irfJtX2XJvvK7-3fqfTqjpnfID1"
   },
   {
     "id": 18,
@@ -629,7 +629,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried rice with aromatic Middle East curry, peas, sweet corn & carrot",
     "price": 33000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1SkOxg-f2dITM9AM6czaLNNGuf156m7Zx"
   },
   {
     "id": 50,
@@ -643,7 +643,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Tomato fried rice with special tomato sauce, chopped tomato, seaweed & pickle",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1_wEcw2T-PO9_W8qa0YXrOy3-TgRZVKTJ"
   },
   {
     "id": 51,
@@ -657,7 +657,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried rice with aromatic Chinese cedar oil, peas, carrot & pickle",
     "price": 33000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/13x-r1HVs1oNK-HmcUdTNMRyNnOyl9abC"
   },
   {
     "id": 52,
@@ -669,7 +669,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Classic Indonesian style fried rice with peas, carrot & corn. Top with rolled fried tofu skin",
     "price": 36000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1KmiPktg-jinlutt_gjbRXtsvhxD9WYKm"
   },
   {
     "id": 53,
@@ -681,7 +681,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried rice with spicy chilli and aromatic stinky bean (petai)",
     "price": 35000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/11xMHTyH0kfi8iIER_GS8Pt1nbi48REBb"
   },
   {
     "id": 54,
@@ -693,7 +693,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried rice with special aromatic Balinese 'Bongkot' flower & chopped chilli",
     "price": 35000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1PGYsAtfIwIVBxuQoWDQegUmukhfaF_-l"
   },
   {
     "id": 55,
@@ -707,7 +707,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Sweet, spicy and tangy noodle with sesame and cracker",
     "price": 31000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop",
+    "image": "https://lh3.googleusercontent.com/d/11zqohBtl3-TfMSMYJ7b8SyeOm1xfhN05",
     "spicyLevelAvailable": true
   },
   {
@@ -722,7 +722,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Chinese style string noodle with sesame oil and veggies",
     "price": 33000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1Dl7wLm_5RFTXn7Fe-N3htrClYTl06Uvw"
   },
   {
     "id": 57,
@@ -734,7 +734,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Noodle made with sagoo flour (sagoo tree starch) which gives chewy and stringy texture, cooked in sweet and savory soy sauce",
     "price": 35000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1IeS2hSZLLGMdissW3UTccvKYe-CBgoJf"
   },
   {
     "id": 58,
@@ -746,7 +746,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Indonesian style fried noodle with veggies, sweet and savory flavor",
     "price": 31000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1mJTSASubpV--10SR18ZKgYEDiH0iFGc_"
   },
   {
     "id": 59,
@@ -758,7 +758,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Flat rice noodle/kwetiau cooked with sweet soy sauce & veggies",
     "price": 31000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/18iuF1Oe8fu9GrZkoMOTCHkJj0Jj_5z6o"
   },
   {
     "id": 60,
@@ -772,7 +772,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Rice noodle cooked in sweet and savory Indonesian style with veggies",
     "price": 31000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1tTtLO99cuE1952YjkoJdKuloaSoevjgH"
   },
   {
     "id": 61,
@@ -786,7 +786,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Thick yellow noodle cooked in Chinese Hokkien style with veggies",
     "price": 33000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1fXYroVh4G24pIo_fg6P8ERsIWLbnuixE"
   },
   {
     "id": 62,
@@ -798,7 +798,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Shiitake meatball, yellow noodle, rice noodle, fried tofu, bean sprouts, & veggies",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1rlx9woNqeGsFbHFFSYMmQJ_oVD5FcEy8"
   },
   {
     "id": 63,
@@ -838,7 +838,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "A classic fried veggie fritters with aromatic Indonesian spices soup, fried tofu, tomato, rice noodle, & cucumber",
     "price": 32000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1IpW5MukYCa2cKN1Vn2pWwPKCH4ZOlzQ6"
   },
   {
     "id": 66,
@@ -850,7 +850,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Oyster mushroom meatball with rice noodle, yellow noodle, fried tofu, bean sprouts & veggies",
     "price": 35000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1KI17PeA4UjjxE9et-EaXwKJGtz_gD2Xg"
   },
   {
     "id": 67,
@@ -1105,7 +1105,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Original shoyu style ramen with mushroom, seaweed, and fried tofu skin",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1jeLB7J-MQvnO3jWmA4PHsPBqaib8ypNB"
   },
   {
     "id": 86,
@@ -1117,7 +1117,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Ramen noodle with thick curry sauce & tempura katsu",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1ePZA_9xCoKoJWPnz_qRoadnDAY54puyj"
   },
   {
     "id": 87,
@@ -1129,7 +1129,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Ramen noodle with Japanese miso style, tofu & seaweed",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1EeX06eymhR-eBLY15JmMfBZ0XwpHewHm"
   },
   {
     "id": 88,
@@ -1143,7 +1143,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Handmade noodle with in-house special sauce, dumplings, vegetables & bean sprout",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/141DVvihEyGPPu3uLxZSqIxnLeJN0fsYo"
   },
   {
     "id": 89,
@@ -1157,7 +1157,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Handmade noodle with oriental style sauce, BBQ soy protein, vegetables & bean sprout",
     "price": 40000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1tTtHDxu0vjG_9ZADyRif82HtYOdcPGPY"
   },
   {
     "id": 90,
@@ -1171,7 +1171,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Handmade noodle with special chili sauce, sweet soy protein, vegetables & dumplings",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1tyn9Ya2lhd43k92__d7ZVtWbDELzR3_O"
   },
   {
     "id": 91,
@@ -1186,7 +1186,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Soy protein katsu with special curry sauce and refreshing salad",
     "price": 42000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1hl2oHK9Nbggq8Yo0m9GiNlavhYY14Hi6"
   },
   {
     "id": 92,
@@ -1200,7 +1200,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Soy protein katsu with BBQ sauce and refreshing salad",
     "price": 42000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1HVrwZ4HxOMkhSdzXgxg7xJ6qyhL3Gtii"
   },
   {
     "id": 93,
@@ -1226,7 +1226,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Middle East kebab with curry & veggies / kebab with veggies roll",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1bcO3Ln3eqDNckl4PQZifsJ3WY7Xhjk1J"
   },
   {
     "id": 95,
@@ -1240,7 +1240,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Vietnamese spring roll with special cheese and sesame sauce",
     "price": 30000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/19ZUZ9g7t8jY6-TAX2WzNEYMnLfAep7hZ"
   },
   {
     "id": 96,
@@ -1252,7 +1252,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Indian roti paratha dipped in special curry sauce",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1LIIOltQ-zPIbdj89pNbBGNQuSlvq7Iiv"
   },
   {
     "id": 97,
@@ -1268,7 +1268,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pasta with cashew carbonara sauce, Champignon mushroom & Vegan Cheese",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1612874742237-6526221588e3?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/16xFZ_PXvSEkhY4eaICaZuIkjAHbyu7hA"
   },
   {
     "id": 98,
@@ -1282,7 +1282,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pasta with special tomato sauce, soy protein, bell pepper, & vegan cheese",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1621996346565-e3d5d6281691?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1fMMqSCISzNB6UVcV73_gn_qv9yvAqu8e"
   },
   {
     "id": 99,
@@ -1311,7 +1311,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pasta with cashew pesto and basil sauce, Italian herbs, and green peas",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1dZDK1g_W9cXOJZ4DY6a0tksZVRDavG5H"
   },
   {
     "id": 101,
@@ -1323,7 +1323,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pasta with olive oil, chilli, pepper & Champignon mushroom",
     "price": 38000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/17v0rHgMI3XT2Zv5lyEiiQFvyTno91dzl"
   },
   {
     "id": 102,
@@ -1399,7 +1399,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Indonesian salad with rice cakes, potato, veggies, melinjo crackers, and cashew peanut sauce",
     "price": 35000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1CprtWJnmOccZt-2QPujQOtc9R7ugK3AQ"
   },
   {
     "id": 108,
@@ -1483,7 +1483,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Original Burger with homemade Patty, vegan cream cheese, mayo, veggies & fries",
     "price": 40000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1520072959219-c595dc870360?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1sR2VV37LmCuWsdkub5UBgeM8JFn-ggva"
   },
   {
     "id": 114,
@@ -1497,7 +1497,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Burger with special Lemon Butter Sauce, with homemade patty, Veggies, & fries",
     "price": 40000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1520072959219-c595dc870360?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1Mi6oQRVwJckxSAIeSVaie-kuSuVqRNtR"
   },
   {
     "id": 115,
@@ -1511,7 +1511,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Sandwich with homemade patty, Crispy floss, veggies, and in house Special sauce, served with salad",
     "price": 40000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/19OpLP2ol-0EOZIVJa58ELiH8_TTpwYKb"
   },
   {
     "id": 116,
@@ -1525,7 +1525,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Original Pempek with vinegar",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1XDBGjlKxASIYy2OmQkY7XwzUejf1W7Yr"
   },
   {
     "id": 117,
@@ -1537,7 +1537,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pempek with seaweed and Crispy outside",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1dxO0dFV11snk4DbwiVeapPqkmEXVfhJU"
   },
   {
     "id": 118,
@@ -1549,7 +1549,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried pempek stuffed with sweet & Spicy crisp",
     "price": 27000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1PEpPlh1YBYuqo2Zy963bBbgKn5uEz22T"
   },
   {
     "id": 119,
@@ -1563,7 +1563,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried Pempek ball with mushroom",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1wMoZ5AKl-KeO4AJRgRKiDDVCCSC7DP6Z"
   },
   {
     "id": 120,
@@ -1577,7 +1577,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Crispy Samosa with curry fillings",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1rGM_fy1duhYbRTcF2OtHl3JoUg8Y2Xbi"
   },
   {
     "id": 121,
@@ -1591,7 +1591,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Chewy risoles skin with curry, Potato, carrot & Soy Protein",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1C4vYLZpGWjD2Z3edTyw60fBYlIWSKaiT"
   },
   {
     "id": 122,
@@ -1605,7 +1605,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried dumplings filled with soy protein & shiitake mushroom",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1AICEIg3aUPd9wdebzAeH99jyPzMRaN8z"
   },
   {
     "id": 123,
@@ -1617,7 +1617,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Oriental Vegetables wrapped in crispy skin",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1J1jgI5R61clMqzKBiaNfunDkpU3FWOSK"
   },
   {
     "id": 124,
@@ -1629,7 +1629,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Puff pastry with potato & carrot Curry fillings",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/15SCeesyopPmkVjLhrIr2z2NBYqUQeSuG"
   },
   {
     "id": 125,
@@ -1643,7 +1643,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Aromatic Sticky Rice stuffed with Mushroom, soy protein & nuts",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1JSM8OKtStKOvWb55jjDYh0d97dztNmZm"
   },
   {
     "id": 126,
@@ -1657,7 +1657,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Oriental style turnip cake with Sweet & sour sauce",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/16Kn_3xoAyQmOvX3mounmne-FR4e2SNJ4"
   },
   {
     "id": 127,
@@ -1669,7 +1669,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Sauted Veggies wrapped in Asian Style Glutinous Dumpling",
     "price": 25000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1IK6fp9qjOuWq-papENwYhHAf1w3qAzKN"
   },
   {
     "id": 128,
@@ -1683,7 +1683,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Indonesian style dumpling with chopped mushroom and soy protein, served in peanut/chili sauce",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1iEnfaF3OTLHHRKuqrXGyVe3WBg6b6T4q"
   },
   {
     "id": 129,
@@ -1695,7 +1695,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Pan fried dumplings with aromatic Stuffed soy protein & coriander leaves",
     "price": 28000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1YTNrFvtyjp2O0UWjpnCXkMR-5pF0WcjH"
   },
   {
     "id": 130,
@@ -1709,7 +1709,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Crispy fried Tofu, served hot with side dips",
     "price": 23000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1ALwMYw1xETn1L9BVNlCwgismBxiPJ_QZ"
   },
   {
     "id": 131,
@@ -1723,7 +1723,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Original French Fries seasoned with aromatic Italian Herbs",
     "price": 23000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1jlfgTkJRpMwk_nM0Ln5CEzEVJYfvbTUq"
   },
   {
     "id": 132,
@@ -1735,7 +1735,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Fried aromatic local cassava, soft on the inside and crispy on the outside",
     "price": 23000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/1xTq0ENBjqj8y4O7SG1mrl_uogbPRqbeG"
   },
   {
     "id": 133,
@@ -1749,7 +1749,7 @@ export const MENU_ITEMS: MenuItem[] = [
     "ingredients": "Original LN style fried crispy and savory Tempeh",
     "price": 23000,
     "size": "Porsi",
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"
+    "image": "https://lh3.googleusercontent.com/d/15xX4hNggka-fWLqxnwmkbJZuBnBvWoTP"
   },
   {
     "id": 134,

@@ -34,13 +34,17 @@ export type CartItem = {
   subtotal: number;
 };
 
-export type OrderType = 'Pickup' | 'Dine-in' | 'Delivery';
+export type OrderType = 'Dine In' | 'Take Away' | 'Delivery' | 'Pesanan Terjadwal';
 
 export type CheckoutFormData = {
   customerName: string;
+  customerEmail: string;
   customerPhone: string;
   orderType: OrderType;
   deliveryAddress?: string;
+  tableNumber?: string;
+  scheduledDate?: string;
+  scheduledTime?: string;
   orderTime: string;
   generalNotes?: string;
   agreedToTerms: boolean;
