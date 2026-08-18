@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ChevronLeft,
   ChevronRight,
@@ -20,20 +20,16 @@ import { OpeningStatusBadge } from './OpeningStatusBadge';
 
 export const Hero: React.FC = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const { addToCart, setIsCartOpen, setQuickViewItem } = useCart();
   const [addedItemMap, setAddedItemMap] = useState<Record<number, boolean>>({});
 
-  // Auto Slider runs every 2.5 seconds (2500ms) continuously
+  // Auto Slider runs continuously every 2.5 seconds (2500ms) without stopping
   useEffect(() => {
-    if (isPaused) return;
     const timer = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % SIGNATURE_ITEMS.length);
     }, 2500);
     return () => clearInterval(timer);
-  }, [isPaused]);
-
-  const activeItem = SIGNATURE_ITEMS[currentIdx] || SIGNATURE_ITEMS[0];
+  }, []);
 
   const handlePrev = () => {
     setCurrentIdx((prev) => (prev === 0 ? SIGNATURE_ITEMS.length - 1 : prev - 1));
@@ -43,7 +39,7 @@ export const Hero: React.FC = () => {
     setCurrentIdx((prev) => (prev + 1) % SIGNATURE_ITEMS.length);
   };
 
-  const handleAddToCart = (e: React.MouseEvent, item: typeof activeItem) => {
+  const handleAddToCart = (e: React.MouseEvent, item: typeof SIGNATURE_ITEMS[0]) => {
     e.stopPropagation();
     addToCart(item, 1);
     setAddedItemMap((prev) => ({ ...prev, [item.id]: true }));
@@ -59,12 +55,8 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-24 pb-16 lg:py-24"
-    >
-      {/* Background Soft Ambient Glow */}
+    <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-24 pb-16 lg:py-24">
+      {/* Background Ambient Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/70 via-teal-50/50 to-transparent rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-50/90 to-transparent rounded-full blur-[130px] pointer-events-none" />
 
@@ -79,7 +71,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* 2. Headline Copywriting */}
-        <div className="max-w-2xl mx-auto mb-6">
+        <div className="max-w-2xl mx-auto mb-4">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.12] mb-3">
             Taste the Best that <br />
             <span className="text-emerald-700 italic font-serif font-normal">
@@ -92,17 +84,13 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 3. Apple-Style 3D Cover Flow Rotating Carousel (Ref Image 1 & 2) */}
-        <div className="relative w-full max-w-5xl my-4 py-6 flex items-center justify-center min-h-[460px] sm:min-h-[500px] perspective-1000 overflow-visible">
-          {[-2, -1, 0, 1, 2].map((offset) => {
+        {/* 3. Apple-Style 3D Rotating Cover Flow Showcase */}
+        <div className="relative w-full max-w-5xl my-2 py-4 flex items-center justify-center min-h-[480px] sm:min-h-[530px] perspective-1000 overflow-visible">
+          {[-1, 0, 1].map((offset) => {
             const item = getItemAtOffset(offset);
             const isCenter = offset === 0;
             const isLeft = offset === -1;
             const isRight = offset === 1;
-            const isFarLeft = offset === -2;
-            const isFarRight = offset === 2;
-
-            if (isFarLeft || isFarRight) return null; // Hide far edges for crisp 3-card 3D focus
 
             return (
               <motion.div
@@ -114,59 +102,63 @@ export const Hero: React.FC = () => {
                 }}
                 initial={false}
                 animate={{
-                  scale: isCenter ? 1 : 0.84,
-                  x: isLeft ? '-75%' : isRight ? '75%' : '0%',
-                  rotateY: isLeft ? 14 : isRight ? -14 : 0,
+                  scale: isCenter ? 1 : 0.82,
+                  x: isLeft ? '-78%' : isRight ? '78%' : '0%',
+                  rotateY: isLeft ? 16 : isRight ? -16 : 0,
                   z: isCenter ? 30 : 10,
-                  opacity: isCenter ? 1 : 0.75,
+                  opacity: isCenter ? 1 : 0.7,
                 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 26 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 260,
+                  damping: 24,
+                }}
                 style={{ zIndex: isCenter ? 30 : 10 }}
-                className={`absolute rounded-[2.5rem] p-5 sm:p-6 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
+                className={`absolute rounded-[2.5rem] p-4 sm:p-5 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
                   isCenter
-                    ? 'w-[300px] sm:w-[360px] lg:w-[380px] h-[460px] sm:h-[500px]'
-                    : 'w-[260px] sm:w-[310px] h-[400px] sm:h-[440px] hidden sm:flex hover:opacity-95'
+                    ? 'w-[310px] sm:w-[370px] lg:w-[390px] h-[480px] sm:h-[520px]'
+                    : 'w-[260px] sm:w-[310px] h-[420px] sm:h-[450px] hidden sm:flex hover:opacity-90'
                 }`}
               >
-                {/* Large Rectangular Rounded Image Frame (Matching Ref Image 1) */}
-                <div className="relative w-full aspect-[4/3] rounded-[1.8rem] overflow-hidden shadow-lg mb-4 bg-slate-100 shrink-0">
+                {/* Taller Food Image Frame (Fills upper 60% of card, removing empty green space) */}
+                <div className="relative w-full h-[240px] sm:h-[280px] rounded-[2rem] overflow-hidden shadow-lg mb-3 bg-slate-100 shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     priority={isCenter}
-                    sizes="(max-width: 640px) 300px, 400px"
+                    sizes="(max-width: 640px) 320px, 420px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Rating Badge Overlay Top Right */}
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/95 text-slate-800 text-xs font-extrabold flex items-center gap-1 shadow-md backdrop-blur-md">
+                  <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-white/95 text-slate-800 text-xs font-extrabold flex items-center gap-1 shadow-md backdrop-blur-md">
                     <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                     <span>4.9</span>
                   </div>
                   {/* Category Tag Overlay Top Left */}
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#0F291E]/80 border border-white/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md">
+                  <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-[#0F291E]/85 border border-white/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md">
                     {item.subCategory}
                   </div>
                 </div>
 
-                {/* Card Main Body */}
-                <div className="flex-1 text-left flex flex-col justify-between">
+                {/* Card Bottom Body (Compact & Snug) */}
+                <div className="flex-1 text-left flex flex-col justify-between pt-1">
                   <div>
                     <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-1">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-emerald-100/90 font-normal leading-relaxed line-clamp-2">
+                    <p className="text-xs text-emerald-100/90 font-normal leading-snug line-clamp-2">
                       {item.ingredients || 'Hidangan gourmet nabati spesial khas LN Fortunate Bali.'}
                     </p>
                   </div>
 
                   {/* Card Bottom Footer: Price + Large White Plus (+) Button */}
-                  <div className="flex items-center justify-between pt-3 border-t border-emerald-800/80 mt-3">
+                  <div className="flex items-center justify-between pt-2.5 border-t border-emerald-800/80 mt-2">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider">
-                        Harga
+                        HARGA
                       </span>
-                      <span className="text-lg sm:text-2xl font-extrabold text-white font-sans">
+                      <span className="text-xl sm:text-2xl font-extrabold text-white font-sans">
                         {formatRupiah(item.price)}
                       </span>
                     </div>
@@ -194,7 +186,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* 4. Navigation & Pagination Indicator */}
-        <div className="flex flex-col items-center gap-5 mt-4 w-full max-w-md">
+        <div className="flex flex-col items-center gap-4 mt-2 w-full max-w-md">
           {/* 2.5s Auto-Slider Indicator Dots */}
           <div className="flex items-center gap-2">
             {SIGNATURE_ITEMS.map((item, idx) => (
@@ -245,7 +237,7 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* 5. Bottom Favorite Food Card Grid (with 3D Shadows & Hover Elevations) */}
+        {/* 5. Bottom Favorite Food Card Grid */}
         <div className="w-full mt-16 pt-10 border-t border-slate-100 text-left">
           <div className="flex items-center justify-between mb-6">
             <div>
