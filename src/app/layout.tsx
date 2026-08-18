@@ -26,15 +26,22 @@ export const metadata: Metadata = {
     'Specialty Coffee Bali',
   ],
   authors: [{ name: 'LN Fortunate Coffee Kapal' }, { name: 'Flowsstack Technology' }],
-  metadataBase: new URL('https://lnfortunatecoffee.com'),
+  metadataBase: new URL('https://lncoffee.flowsstack.com'),
   alternates: {
     canonical: '/',
+  },
+  icons: {
+    icon: [
+      { url: '/logo-ln-fortunate.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/logo-ln-fortunate.svg',
+    apple: '/logo-ln-fortunate.svg',
   },
   openGraph: {
     title: 'LN Fortunate Coffee Kapal | Vegan Restaurant & Coffee in Badung, Bali',
     description:
       'Nikmati hidangan vegan/plant-based, kopi pilihan, dan suasana tropis asri di LN Fortunate Coffee Kapal, Mengwi, Badung, Bali.',
-    url: 'https://lnfortunatecoffee.com',
+    url: 'https://lncoffee.flowsstack.com',
     siteName: 'LN Fortunate Coffee Kapal',
     locale: 'id_ID',
     type: 'website',
@@ -76,7 +83,7 @@ const jsonLd = {
     latitude: -8.587841,
     longitude: 115.1764619,
   },
-  url: 'https://lnfortunatecoffee.com',
+  url: 'https://lncoffee.flowsstack.com',
   telephone: BUSINESS_INFO.publicPhone,
   servesCuisine: ['Vegan', 'Vegetarian', 'Plant-Based', 'Coffee', 'Indonesian', 'Dessert'],
   priceRange: BUSINESS_INFO.priceRange,
@@ -96,7 +103,7 @@ const jsonLd = {
       closes: '21:00',
     },
   ],
-  hasMenu: 'https://lnfortunatecoffee.com/menu',
+  hasMenu: 'https://lncoffee.flowsstack.com/menu',
   acceptsReservations: 'True',
 };
 
@@ -108,12 +115,14 @@ export default function RootLayout({
   return (
     <html lang="id" className="scroll-smooth">
       <head>
+        <link rel="icon" href="/logo-ln-fortunate.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo-ln-fortunate.svg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased min-h-screen flex flex-col justify-between selection:bg-terracotta-500 selection:text-white">
+      <body className="antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-800 selection:text-white">
         <CartProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
