@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
   ChevronRight,
@@ -22,11 +22,11 @@ export const Hero: React.FC = () => {
   const { addToCart, setIsCartOpen, setQuickViewItem } = useCart();
   const [addedItemMap, setAddedItemMap] = useState<Record<number, boolean>>({});
 
-  // Auto Slider runs continuously every 2.5 seconds (2500ms) without stopping
+  // Auto Slider runs continuously every 5 seconds (5000ms)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % SIGNATURE_ITEMS.length);
-    }, 2500);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -55,13 +55,54 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-center overflow-hidden bg-white text-slate-800 pt-20 pb-14 lg:py-20">
-      {/* Background Ambient Glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/70 via-teal-50/50 to-transparent rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-50/90 to-transparent rounded-full blur-[130px] pointer-events-none" />
+      
+      {/* Organic Green Liquid Silk Waves Background (Matching Ref Images 2-5) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Layer 1: Top-Right Concentric Organic Green Wave Contour */}
+        <svg
+          className="absolute -top-12 -right-12 w-[650px] sm:w-[850px] opacity-25 text-emerald-600 mix-blend-multiply"
+          viewBox="0 0 700 700"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 600,0 C 500,150 400,300 250,400 C 100,500 0,600 -100,650 L 700,700 Z"
+            fill="url(#emerald-wave-gradient-1)"
+          />
+          <path
+            d="M 650,0 C 550,180 420,340 300,430 C 180,520 50,620 -50,680 L 700,700 Z"
+            fill="url(#emerald-wave-gradient-2)"
+            opacity="0.7"
+          />
+          <path
+            d="M 700,0 C 600,200 450,380 340,460 C 220,540 100,640 0,700 L 700,700 Z"
+            fill="url(#emerald-wave-gradient-3)"
+            opacity="0.4"
+          />
+          <defs>
+            <linearGradient id="emerald-wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0F291E" />
+              <stop offset="50%" stopColor="#059669" />
+              <stop offset="100%" stopColor="#34D399" />
+            </linearGradient>
+            <linearGradient id="emerald-wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#047857" />
+              <stop offset="100%" stopColor="#A7F3D0" />
+            </linearGradient>
+            <linearGradient id="emerald-wave-gradient-3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#065F46" />
+              <stop offset="100%" stopColor="#6EE7B7" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Layer 2: Bottom-Left Soft Silk Glow */}
+        <div className="absolute -bottom-24 -left-24 w-[550px] h-[550px] bg-gradient-to-tr from-emerald-100/80 via-teal-50/50 to-transparent rounded-full blur-[140px]" />
+      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
         
-        {/* 1. Headline Copywriting (Badges removed per user request) */}
+        {/* 1. Headline Copywriting */}
         <div className="max-w-2xl mx-auto mb-3">
           <h1 className="text-3.5xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0F291E] leading-[1.1] mb-2">
             Taste the Best that <br />
@@ -75,50 +116,93 @@ export const Hero: React.FC = () => {
           </p>
         </div>
 
-        {/* 2. Apple-Style 3D Rotating Cover Flow Showcase (Taller Image & Snug Text Layout) */}
-        <div className="relative w-full max-w-5xl my-2 py-2 flex items-center justify-center min-h-[500px] sm:min-h-[550px] perspective-1000 overflow-visible">
-          {[-1, 0, 1].map((offset) => {
+        {/* 2. Genuine 5-Card Apple 3D Physical Rotating Cover Flow Showcase */}
+        <div className="relative w-full max-w-6xl my-2 py-4 flex items-center justify-center min-h-[500px] sm:min-h-[550px] perspective-1000 overflow-visible">
+          {[-2, -1, 0, 1, 2].map((offset) => {
             const item = getItemAtOffset(offset);
             const isCenter = offset === 0;
             const isLeft = offset === -1;
             const isRight = offset === 1;
+            const isFarLeft = offset === -2;
+            const isFarRight = offset === 2;
+
+            // Physical 3D transform positions for 5 cards
+            let xPos = '0%';
+            let scaleVal = 1;
+            let rotateVal = 0;
+            let opacityVal = 1;
+            let zIndexVal = 30;
+
+            if (isCenter) {
+              xPos = '0%';
+              scaleVal = 1;
+              rotateVal = 0;
+              opacityVal = 1;
+              zIndexVal = 30;
+            } else if (isLeft) {
+              xPos = '-64%';
+              scaleVal = 0.83;
+              rotateVal = 15;
+              opacityVal = 0.8;
+              zIndexVal = 20;
+            } else if (isRight) {
+              xPos = '64%';
+              scaleVal = 0.83;
+              rotateVal = -15;
+              opacityVal = 0.8;
+              zIndexVal = 20;
+            } else if (isFarLeft) {
+              xPos = '-122%';
+              scaleVal = 0.68;
+              rotateVal = 26;
+              opacityVal = 0.5;
+              zIndexVal = 10;
+            } else if (isFarRight) {
+              xPos = '122%';
+              scaleVal = 0.68;
+              rotateVal = -26;
+              opacityVal = 0.5;
+              zIndexVal = 10;
+            }
 
             return (
               <motion.div
-                key={`${item.id}-${offset}`}
+                key={`card-slot-${offset}-${item.id}`}
+                layout
                 onClick={() => {
-                  if (isLeft) handlePrev();
-                  if (isRight) handleNext();
+                  if (isLeft || isFarLeft) handlePrev();
+                  if (isRight || isFarRight) handleNext();
                   if (isCenter) setQuickViewItem(item);
                 }}
                 initial={false}
                 animate={{
-                  scale: isCenter ? 1 : 0.82,
-                  x: isLeft ? '-78%' : isRight ? '78%' : '0%',
-                  rotateY: isLeft ? 16 : isRight ? -16 : 0,
-                  z: isCenter ? 30 : 10,
-                  opacity: isCenter ? 1 : 0.7,
+                  scale: scaleVal,
+                  x: xPos,
+                  rotateY: rotateVal,
+                  opacity: opacityVal,
                 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 260,
+                  stiffness: 220,
                   damping: 24,
                 }}
-                style={{ zIndex: isCenter ? 30 : 10 }}
+                style={{ zIndex: zIndexVal }}
                 className={`absolute rounded-[2.5rem] p-4 sm:p-5 bg-gradient-to-br from-[#0F291E] via-emerald-900 to-[#0A2218] text-white border border-emerald-700/80 shadow-[0_30px_70px_-15px_rgba(15,41,30,0.45)] flex flex-col justify-between cursor-pointer select-none transition-all ${
                   isCenter
-                    ? 'w-[320px] sm:w-[380px] lg:w-[400px] h-[500px] sm:h-[540px]'
-                    : 'w-[270px] sm:w-[320px] h-[430px] sm:h-[470px] hidden sm:flex hover:opacity-90'
+                    ? 'w-[310px] sm:w-[360px] lg:w-[380px] h-[490px] sm:h-[530px]'
+                    : isLeft || isRight
+                    ? 'w-[260px] sm:w-[310px] h-[420px] sm:h-[460px] hidden sm:flex hover:opacity-95'
+                    : 'w-[220px] sm:w-[260px] h-[370px] sm:h-[400px] hidden lg:flex opacity-60'
                 }`}
               >
-                {/* Taller Food Image Frame (Fills almost 70% of card, removing empty green space - Ref Image 2) */}
-                <div className="relative w-full h-[280px] sm:h-[330px] rounded-[2rem] overflow-hidden shadow-lg mb-2 bg-slate-100 shrink-0">
+                {/* Taller Food Image Frame (Fills almost 70% of card) */}
+                <div className="relative w-full h-[270px] sm:h-[320px] rounded-[2rem] overflow-hidden shadow-lg mb-2 bg-slate-100 shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     priority={isCenter}
-                    sizes="(max-width: 640px) 340px, 440px"
+                    sizes="(max-width: 640px) 320px, 420px"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Rating Badge Overlay Top Right */}
@@ -132,7 +216,7 @@ export const Hero: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Bottom Body (Text & Description Snug against Price line) */}
+                {/* Card Bottom Body (Text Snug against Price Line) */}
                 <div className="flex-1 text-left flex flex-col justify-between pt-0.5">
                   <div>
                     <h3 className="text-lg sm:text-xl font-extrabold text-white line-clamp-1 mb-0.5">
@@ -176,9 +260,9 @@ export const Hero: React.FC = () => {
           })}
         </div>
 
-        {/* 3. Sleek Single-Line Horizontal Navigation Buttons (Ref Image 3) */}
+        {/* 3. Single-Line Horizontal Navigation Buttons */}
         <div className="flex flex-col items-center gap-3.5 mt-2 w-full max-w-lg">
-          {/* 2.5s Auto-Slider Indicator Dots */}
+          {/* 5s Auto-Slider Indicator Dots */}
           <div className="flex items-center gap-2">
             {SIGNATURE_ITEMS.map((item, idx) => (
               <button
@@ -203,7 +287,6 @@ export const Hero: React.FC = () => {
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            {/* Single-Line Horizontal Button "Lihat Semua Menu" */}
             <Link
               href="/menu"
               className="px-6 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs sm:text-sm whitespace-nowrap transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 shrink-0 inline-flex items-center justify-center"
@@ -211,7 +294,6 @@ export const Hero: React.FC = () => {
               Lihat Semua Menu
             </Link>
 
-            {/* Single-Line Horizontal Button "Keranjang" */}
             <button
               onClick={() => setIsCartOpen(true)}
               className="px-5 py-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 shadow-sm shrink-0"
@@ -312,7 +394,7 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Organic Green Wave Shape Divider */}
+      {/* Organic Green Wave Divider */}
       <div className="w-full overflow-hidden leading-none mt-10 pointer-events-none">
         <svg
           className="relative block w-full h-12 text-emerald-900/10"

@@ -9,6 +9,28 @@ import { ArrowRight } from 'lucide-react';
 export const SignatureSection: React.FC = () => {
   return (
     <section className="py-20 lg:py-28 bg-white relative overflow-hidden">
+      {/* Background Organic Green Silk Wave Accents (Ref Images 2-5) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <svg
+          className="absolute -bottom-16 -left-16 w-[700px] opacity-20 text-emerald-600 mix-blend-multiply"
+          viewBox="0 0 700 700"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 0,700 C 150,550 300,400 400,250 C 500,100 600,0 650,-100 L 0,-100 Z"
+            fill="url(#sig-emerald-wave)"
+          />
+          <defs>
+            <linearGradient id="sig-emerald-wave" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#0F291E" />
+              <stop offset="50%" stopColor="#059669" />
+              <stop offset="100%" stopColor="#A7F3D0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
