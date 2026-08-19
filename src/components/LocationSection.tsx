@@ -59,14 +59,41 @@ export const LocationSection: React.FC = () => {
                 <p className="leading-relaxed font-normal">{BUSINESS_INFO.address}</p>
               </div>
 
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <Phone className="w-5 h-5 text-emerald-700 shrink-0" />
-                <a
-                  href={`tel:${BUSINESS_INFO.publicPhone}`}
-                  className="font-bold hover:text-emerald-800 transition-colors"
-                >
-                  {BUSINESS_INFO.publicPhoneDisplay}
-                </a>
+              <div className="pt-2 space-y-2.5 text-sm text-slate-700">
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-emerald-700 shrink-0 mt-1" />
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <a
+                        href={BUSINESS_INFO.customerCareWaUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-slate-900 hover:text-emerald-700 transition-colors"
+                        title="Chat WhatsApp Customer Care"
+                      >
+                        {BUSINESS_INFO.customerCarePhone}
+                      </a>
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                        Customer Care
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <a
+                        href={BUSINESS_INFO.picRestaurantWaUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-slate-900 hover:text-emerald-700 transition-colors"
+                        title="Chat WhatsApp PIC Restaurant"
+                      >
+                        {BUSINESS_INFO.picRestaurantPhone}
+                      </a>
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                        PIC Restaurant
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Action Buttons */}
@@ -81,11 +108,13 @@ export const LocationSection: React.FC = () => {
                   <span>Google Maps</span>
                 </a>
                 <a
-                  href={`tel:${BUSINESS_INFO.publicPhone}`}
-                  className="py-3 px-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition-all border border-slate-200"
+                  href={BUSINESS_INFO.customerCareWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-4 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center gap-2 transition-all border border-emerald-200 shadow-sm"
                 >
                   <Phone className="w-4 h-4 text-emerald-700" />
-                  <span>Telepon</span>
+                  <span>WhatsApp Care</span>
                 </a>
               </div>
             </div>

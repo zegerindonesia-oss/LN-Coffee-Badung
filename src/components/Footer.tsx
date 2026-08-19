@@ -41,12 +41,27 @@ export const Footer: React.FC = () => {
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{BUSINESS_INFO.address}</span>
               </p>
-              <p className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <a href={`tel:${BUSINESS_INFO.publicPhone}`} className="hover:text-white transition-colors">
-                  {BUSINESS_INFO.publicPhoneDisplay}
-                </a>
-              </p>
+              <div className="flex items-start gap-2">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="flex flex-col gap-1">
+                  <a
+                    href={BUSINESS_INFO.customerCareWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    {BUSINESS_INFO.customerCarePhone} <span className="text-[10px] text-emerald-400 font-normal">(Customer Care)</span>
+                  </a>
+                  <a
+                    href={BUSINESS_INFO.picRestaurantWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    {BUSINESS_INFO.picRestaurantPhone} <span className="text-[10px] text-emerald-400 font-normal">(PIC Restaurant)</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
