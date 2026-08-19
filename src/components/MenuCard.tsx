@@ -117,7 +117,7 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
           </p>
         </div>
 
-        {/* Price & Rounded Full Plus Button */}
+        {/* Price & Pill Button with "+ Pesan" */}
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <div>
             <span className="text-[10px] text-slate-400 uppercase block font-semibold">Harga</span>
@@ -127,19 +127,25 @@ export const MenuCard: React.FC<MenuCardProps> = ({ item, onQuickView }) => {
           </div>
 
           <motion.button
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.94 }}
             onClick={handleAddToCart}
-            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-md transition-all ${
+            className={`px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-1.5 font-bold text-xs sm:text-sm shadow-sm transition-all ${
               isJustAdded
-                ? 'bg-emerald-800'
-                : 'bg-emerald-700 hover:bg-emerald-800 hover:shadow-lg'
+                ? 'bg-emerald-800 text-white border-emerald-800'
+                : 'bg-white hover:bg-emerald-700 text-emerald-800 hover:text-white border-2 border-emerald-700 hover:shadow-md'
             }`}
             aria-label={`Tambah ${item.name} ke keranjang`}
           >
             {isJustAdded ? (
-              <Check className="w-5 h-5" />
+              <>
+                <Check className="w-4 h-4 stroke-[3]" />
+                <span>Pesan</span>
+              </>
             ) : (
-              <Plus className="w-5 h-5" />
+              <>
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span>Pesan</span>
+              </>
             )}
           </motion.button>
         </div>

@@ -228,17 +228,23 @@ export const Hero: React.FC = () => {
 
                     <button
                       onClick={(e) => handleAddToCart(e, item)}
-                      className={`w-12 h-12 rounded-full flex items-center justify-center font-extrabold text-xl shadow-xl transition-all active:scale-95 ${
+                      className={`px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 font-extrabold text-xs sm:text-sm shadow-xl transition-all active:scale-95 ${
                         addedItemMap[item.id]
                           ? 'bg-emerald-500 text-white'
-                          : 'bg-white text-[#0F291E] hover:bg-slate-100 hover:scale-105'
+                          : 'bg-white text-[#0F291E] hover:bg-emerald-50 hover:scale-105'
                       }`}
                       aria-label={`Tambah ${item.name}`}
                     >
                       {addedItemMap[item.id] ? (
-                        <Check className="w-6 h-6 text-white" />
+                        <>
+                          <Check className="w-4 h-4 text-white stroke-[3]" />
+                          <span>Pesan</span>
+                        </>
                       ) : (
-                        <Plus className="w-6 h-6 text-[#0F291E]" />
+                        <>
+                          <Plus className="w-4 h-4 text-[#0F291E] stroke-[3]" />
+                          <span>Pesan</span>
+                        </>
                       )}
                     </button>
                   </div>
@@ -365,14 +371,26 @@ export const Hero: React.FC = () => {
                     </span>
                     <button
                       onClick={(e) => handleAddToCart(e, item)}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md transition-transform active:scale-95 ${
-                        isGreenCard
-                          ? 'bg-white text-[#0F291E] hover:bg-slate-100'
-                          : 'bg-emerald-700 text-white hover:bg-emerald-800'
+                      className={`px-3.5 sm:px-4 py-2 rounded-full flex items-center gap-1.5 font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 ${
+                        addedItemMap[item.id]
+                          ? 'bg-emerald-800 text-white'
+                          : isGreenCard
+                            ? 'bg-white text-[#0F291E] hover:bg-emerald-50'
+                            : 'bg-emerald-700 text-white hover:bg-emerald-800'
                       }`}
                       aria-label={`Tambah ${item.name}`}
                     >
-                      <Plus className="w-5 h-5" />
+                      {addedItemMap[item.id] ? (
+                        <>
+                          <Check className="w-4 h-4 stroke-[3]" />
+                          <span>Pesan</span>
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="w-4 h-4 stroke-[3]" />
+                          <span>Pesan</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </motion.div>
